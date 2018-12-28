@@ -1,0 +1,106 @@
+<% if item.id == nil%>
+<% id = '0'%>
+<% else%>
+<% id = item.id%>
+<%end%>
+<div id="modal_<%= id.last(5)%>" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"><%=t :crop_image%></h4>
+      </div>
+      <div class="modal-body">
+        <img id="target_<%= id.last(5)%>" for="" src=""/>
+        <input id="crop_x_<%= id.last(5)%>" name="upload[crop_x]" type="hidden" value="">
+        <input id="crop_y_<%= id.last(5)%>" name="upload[crop_y]" type="hidden" value="">
+        <input id="crop_w_<%= id.last(5)%>" name="upload[crop_w]" type="hidden" value="">
+        <input id="crop_h_<%= id.last(5)%>" name="upload[crop_h]" type="hidden" value="">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" onclick="send_<%= id.last(5)%>()"><%=t :submit%></button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  function send_<%= id.last(5)%>(){
+    $.ajax({
+      type: "PATCH",
+      dataType: 'JSON',
+      url: '/uploads/'+ $('#target_<%= id.last(5)%>').attr('for'),
+      data: {authenticity_token: window._token, 'upload[crop_x]': $('#crop_x_<%= id.last(5)%>').val(), 'upload[crop_y]': $('#crop_y_<%= id.last(5)%>').val(), 'upload[crop_w]': $('#crop_w_<%= id.last(5)%>').val(), 'upload[crop_h]': $('#crop_h_<%= id.last(5)%>').val()},
+      success: function(){
+        $('#target_<%= id.last(5)%>').attr('src', '');
+        $('#modal_<%= id.last(5)%>').modal('toggle');
+      }
+    });
+  }
+</script>
+<%= form_for(Upload.new, html: {id: "new_upload_#{id.last(5)}", class: 'dropzone'}) do |f| %>
+<%= f.hidden_field :uploadable_type, value: class_name%>
+<%= f.hidden_field :uploadable_id, value: id%>
+<%= f.hidden_field :attachment_type, value: type%>
+<%= hidden_field_tag :file_type, 'picture'%>
+<div class="fallback">
+  <%= f.file_field :picture %><br>
+  <%= f.hidden_field :uploadable_type, value: class_name%>
+  <%= f.hidden_field :uploadable_id, value: id%>
+  <%= f.hidden_field :attachment_type, value: type%>
+  <%= f.submit "Upload" %>
+</div>
+<% end %>
+<script>
+  Dropzone.autoDiscover = false;
+  var jcrop_api;
+  $("#new_upload_<%= id.last(5)%>").dropzone({
+    <% if !max.blank? && max == 1%>
+     maxFiles: 1,
+    <%end%>
+    dictDefaultMessage : "<%=t :drop_files_here_to_upload%>",
+    dictRemoveFile : "<%=t :remove_file %>",
+    acceptedFiles : '.docx,.doc,.pdf,.txt, .png,.jpg,.jpeg',
+    addRemoveLinks: true,
+    removedfile: function(file) {
+      jQuery.get( "/uploads/remoted/" + file.id, function( data ) {
+        console.log(data);
+      });
+      var _ref;
+      return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+    },
+    init: function () {
+      this.on("success", function(file, responseText) {
+        $('#modal_<%= id.last(5)%>').modal('show');
+        $('#target_<%= id.last(5)%>').attr('src', responseText.image);
+        $('#target_<%= id.last(5)%>').attr('for', responseText.id);
+        $('#attachments').val($('#attachments').val() + ',' + responseText.id);
+        if(jcrop_api){
+          jcrop_api.destroy();
+        }
+        $(function() {
+          $('#target_<%= id.last(5)%>').Jcrop({
+            onChange: update_crop,
+            onSelect: update_crop,
+            setSelect: [0, 0, 500, 500],
+            aspectRatio:  <%= ratio%>
+          }, function(){ jcrop_api = this; });
+        });
+        function update_crop(coords) {
+          var ratio = responseText.ratio
+          $('#crop_x_<%= id.last(5)%>').val(Math.floor(coords.x * ratio));
+          $('#crop_y_<%= id.last(5)%>').val(Math.floor(coords.y * ratio));
+          $('#crop_w_<%= id.last(5)%>').val(Math.floor(coords.w * ratio));
+          $('#crop_h_<%= id.last(5)%>').val(Math.floor(coords.h * ratio));
+        }
+        file.id = responseText.id;
+      });
+      <% for upload in Upload.where(uploadable_type: class_name, uploadable_id: id, attachment_type: type)%>
+      var mockFile = { name: "<%= upload.attachment_file_name%>", size: <%= upload.attachment_file_size%>, url: "<%= upload.attachment.url%>", id: <%= upload.id%> };
+      this.options.addedfile.call(this, mockFile);
+      this.options.thumbnail.call(this, mockFile, "<%= upload.attachment(:large)%>");
+      mockFile.previewElement.classList.add('dz-success');
+      mockFile.previewElement.classList.add('dz-complete');
+      <%end%>
+    }
+  });
+</script>

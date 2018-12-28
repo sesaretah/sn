@@ -1,46 +1,62 @@
-<%= form_for(@stream, html: {class: 'card'}) do |f| %>
-<div class="card-header">
-  <h3 class="card-title"><%=t :new_stream %></h3>
-</div>
-<% if @stream.errors.any? %>
-<div id="error_explanation">
-  <h2><%= pluralize(@stream.errors.count, "error") %> prohibited this stream from being saved:</h2>
+<div class="card">
+  <%= form_for @stream do |f| %>
+  <div class="card-header">
+    <h3 class="card-title"><%=t :stream_form %></h3>
+  </div>
+  <% if @stream.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@stream.errors.count, "error") %> prohibited this stream from being saved:</h2>
 
-  <ul>
-    <% @stream.errors.full_messages.each do |message| %>
-    <li><%= message %></li>
-    <% end %>
-  </ul>
-</div>
-<% end %>
-
-<div class="card-body">
-  <div class="row">
-    <div class="col-md-4">
-      <div class="form-group">
-        <%= f.label :title, class: "form-label" %>
-        <%= f.text_field :title , class: "form-control" %>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-4">
-      <div class="form-group">
-        <%= f.label :subdomain, class: "form-label" %>
-        <%= f.text_field :subdomain , class: "form-control" %>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6">
-      <div class="form-group">
-        <%= f.label :details, class: "form-label" %>
-        <%= f.text_area :details , class: "form-control" %>
-      </div>
-    </div>
-  </div>
-  <div class="card-footer text-right">
-    <button type="submit" class="btn btn-primary"><%=t :submit%></button>
-  </div>
+    <ul>
+      <% @stream.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+      <% end %>
+    </ul>
   </div>
   <% end %>
+
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+          <%= f.label :title, class: "form-label" %>
+          <%= f.text_field :title , class: "form-control" %>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+          <%= f.label :subdomain, class: "form-label" %>
+          <%= f.text_field :subdomain , class: "form-control" %>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <%= f.label :details, class: "form-label" %>
+          <%= f.text_area :details , class: "form-control" %>
+        </div>
+      </div>
+    </div>
+    <% end %>
+    <div class="row">
+      <div class="col-md-12">
+        <h5 class="mt-5"><%=t :cover_photo%></h5>
+        <hr class="mt-2 mb-2"/>
+        <%= render partial: 'uploads/upload_form', locals: {item: @stream, ratio: '4/3', class_name: 'Stream', type:'stream_cover', max: 1}%>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-footer text-right">
+    <button id='submit-btn' type="submit" class="btn btn-primary"><%=t :submit%></button>
+  </div>
+  <script>
+    $( "#submit-btn" ).click(function() {
+      console.log('clicked');
+      $( ".<%= params[:action]%>_stream" ).submit();
+    });
+  </script>
+</div>

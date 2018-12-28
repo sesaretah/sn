@@ -1,0 +1,39 @@
+<div class="row row-cards">
+  <div class="col-lg-3">
+    <div class="row">
+      <div class="col-md-6 col-lg-12">
+        <div class="card">
+          <div class="card-body">
+
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-12">
+        <div class="card">
+          <div class="card-body">
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-9">
+    <div class="card">
+      <table class="table card-table table-vcenter">
+        <tbody>
+          <% @questions.each do |question| %>
+          <tr>
+                        <td><%= question.content %></td>
+                        <td><%= question.stream_id %></td>
+                        <td><%= question.uuid %></td>
+                        <td><%= question.user_id %></td>
+                        <td><%= link_to t(:show), question %></td>
+            <td><%= link_to t(:edit), edit_question_path(question) %></td>
+            <td><%= link_to t(:destroy), question, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

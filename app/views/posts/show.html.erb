@@ -1,0 +1,14 @@
+<div class="card">
+  <div class='card-header'>
+    <%= sanitize @post.title%>
+    <div class='card-options'>
+      <a href="/posts/<%=@post.uuid%>/edit" class='btn btn-secondary'><i class="fe fe-edit" style="vertical-align:-3px;"></i> <%=t :edit%></a>
+    </div>
+  </div>
+  <div class='card-body'>
+    <div id="post">
+      <%= sanitize @post.content%>
+    </div>
+  </div>
+</div>
+<%= render partial:'discussions/post_discussions'%>

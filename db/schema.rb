@@ -11,67 +11,95 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181226211943) do
+ActiveRecord::Schema.define(version: 20181228182256) do
+
+  create_table "answers", force: :cascade do |t|
+    t.string   "content",     limit: 255
+    t.string   "uuid",        limit: 255
+    t.string   "question_id", limit: 255
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "answers", ["question_id"], name: "index_answers_on_question_id", using: :btree
+  add_index "answers", ["uuid"], name: "index_answers_on_uuid", unique: true, using: :btree
 
   create_table "comments", force: :cascade do |t|
-    t.string   "discussion_id"
-    t.string   "uuid"
-    t.text     "content"
-    t.integer  "user_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.string   "discussion_id", limit: 255
+    t.string   "uuid",          limit: 255
+    t.text     "content",       limit: 65535
+    t.integer  "user_id",       limit: 4
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
   end
 
-  add_index "comments", ["discussion_id"], name: "index_comments_on_discussion_id"
-  add_index "comments", ["uuid"], name: "index_comments_on_uuid", unique: true
+  add_index "comments", ["discussion_id"], name: "index_comments_on_discussion_id", using: :btree
+  add_index "comments", ["uuid"], name: "index_comments_on_uuid", unique: true, using: :btree
 
   create_table "discussions", force: :cascade do |t|
-    t.string   "post_id"
-    t.string   "uuid"
-    t.integer  "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "post_id",    limit: 255
+    t.string   "uuid",       limit: 255
+    t.integer  "user_id",    limit: 4
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.string   "title",      limit: 255
   end
 
-  add_index "discussions", ["post_id"], name: "index_discussions_on_post_id"
-  add_index "discussions", ["uuid"], name: "index_discussions_on_uuid", unique: true
+  add_index "discussions", ["post_id"], name: "index_discussions_on_post_id", using: :btree
+  add_index "discussions", ["uuid"], name: "index_discussions_on_uuid", unique: true, using: :btree
 
   create_table "posts", force: :cascade do |t|
-    t.string   "stream_id"
-    t.string   "uuid"
-    t.string   "title"
-    t.text     "content"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "stream_id",  limit: 255
+    t.string   "uuid",       limit: 255
+    t.string   "title",      limit: 255
+    t.text     "content",    limit: 65535
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
   end
 
-  add_index "posts", ["stream_id"], name: "index_posts_on_stream_id"
-  add_index "posts", ["uuid"], name: "index_posts_on_uuid", unique: true
+  add_index "posts", ["stream_id"], name: "index_posts_on_stream_id", using: :btree
+  add_index "posts", ["uuid"], name: "index_posts_on_uuid", unique: true, using: :btree
+
+  create_table "questions", force: :cascade do |t|
+    t.text     "content",    limit: 65535
+    t.string   "stream_id",  limit: 255
+    t.string   "uuid",       limit: 255
+    t.integer  "user_id",    limit: 4
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
+  add_index "questions", ["stream_id"], name: "index_questions_on_stream_id", using: :btree
+  add_index "questions", ["uuid"], name: "index_questions_on_uuid", unique: true, using: :btree
 
   create_table "streams", force: :cascade do |t|
-    t.string   "uuid"
-    t.integer  "user_id"
-    t.string   "title"
-    t.string   "subdomain"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.text     "details"
+    t.string   "uuid",       limit: 255
+    t.integer  "user_id",    limit: 4
+    t.string   "title",      limit: 255
+    t.string   "subdomain",  limit: 255
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.text     "details",    limit: 65535
   end
 
-  add_index "streams", ["uuid"], name: "index_streams_on_uuid", unique: true
+  add_index "streams", ["uuid"], name: "index_streams_on_uuid", unique: true, using: :btree
 
   create_table "uploads", force: :cascade do |t|
-    t.string   "uploadable_id"
-    t.string   "uploadable_type"
-    t.string   "attachment_type"
-    t.string   "uuid"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.string   "uploadable_id",           limit: 255
+    t.string   "uploadable_type",         limit: 255
+    t.string   "attachment_type",         limit: 255
+    t.string   "uuid",                    limit: 255
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.string   "attachment_file_name",    limit: 255
+    t.string   "attachment_content_type", limit: 255
+    t.integer  "attachment_file_size",    limit: 8
+    t.datetime "attachment_updated_at"
   end
 
-  add_index "uploads", ["attachment_type"], name: "index_uploads_on_attachment_type"
-  add_index "uploads", ["uploadable_id"], name: "index_uploads_on_uploadable_id"
-  add_index "uploads", ["uploadable_type"], name: "index_uploads_on_uploadable_type"
-  add_index "uploads", ["uuid"], name: "index_uploads_on_uuid", unique: true
+  add_index "uploads", ["attachment_type"], name: "index_uploads_on_attachment_type", using: :btree
+  add_index "uploads", ["uploadable_id"], name: "index_uploads_on_uploadable_id", using: :btree
+  add_index "uploads", ["uploadable_type"], name: "index_uploads_on_uploadable_type", using: :btree
+  add_index "uploads", ["uuid"], name: "index_uploads_on_uuid", unique: true, using: :btree
 
 end

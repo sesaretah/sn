@@ -220,6 +220,12 @@ fa:
             title: 'عنوان '
             details: 'شرح'
             subdomain: 'دامنه '
+        post:
+            title: 'عنوان'
+        discussion:
+            title: 'عنوان'
+        question:
+            content: 'متن سوال'
         user:
             username: 'تلفن همراه کاربر'
             mobile: 'شماره تلفن همراه'
@@ -232,12 +238,22 @@ fa:
     page_gap: "&hellip;"
     previous_label: "قبلی"
     next_label: "بعدی"
+  title: 'عنوان'
+  new_discussion: 'گفتگوی جدید'
+  edit: 'ویرایش '
+  new_post: 'نوشته جدید '
+  new_question: 'پرسش جدید'
+  new_poll: 'نظرسنجی جدید '
+  profiles: 'افراد'
+  cover_photo: 'عکس روی جلد'
+  stream_form: 'فرم اطلاعات رشتو '
+  new_streams: 'رشتو جدید'
   shoa: 'شعاع'
   streams: 'رشتوها'
-  other_river: 'دیگر جویبارها'
-  my_river: 'جویبارهای من'
+  drop_files_here_to_upload: 'برای بارگذاری فایل را اینجا بیاندازید یا کلیک کنید'
+  remove_file: 'حذف فایل'
+  settings: 'تنظیمات'
   home: 'خانه'
-  rivers: 'جویبارها'
   sign_out: 'خروج '
   email: 'ایمیل'
   male: 'مرد'

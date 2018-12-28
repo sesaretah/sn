@@ -1,0 +1,45 @@
+<div id="discussion_modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <i class="far fa-comments" style='vertical-align: -3px;'></i>&nbsp<%=t :new_discussion%>
+        <button type="button" class="close" data-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <%= form_for '/discussions' do |f|%>
+          <div class="row">
+            <div class="col-md-8">
+              <div class="form-group">
+                <label class="form-label"><%=t :title%></label>
+                <%= f.text_field :title, class: "form-control"%>
+              </div>
+            </div>
+          </div>
+          <%end%>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary"><%=t :submit%></button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header" style='border-bottom: none;'>
+    <div class="card-options">
+      <button id="new_discussion" class='btn btn-secondary'><i class="far fa-comments"></i> <%=t :new_discussion%></button>
+    </div>
+  </div>
+  <script type="text/javascript">
+    $('#new_discussion').click(function() {
+      $('#discussion_modal').modal('show');
+    });
+  </script>
+  <button type="button" class="d-flex p-0 repository-lang-stats-graph js-toggle-lang-stats" title="Click for language details" data-ga-click="Repository, language bar stats toggle, location:repo overview">
+    <span class="language-color" aria-label="CSS 64.2%" style="width:4.2%; background-color:<%= color%>;" itemprop="keywords">CSS</span>
+    <span class="language-color" aria-label="HTML 18.0%" style="width:18.0%; background-color:<%= color%>;" itemprop="keywords">HTML</span>
+    <span class="language-color" aria-label="Ruby 16.5%" style="width:16.5%; background-color:<%= color%>;" itemprop="keywords">Ruby</span>
+    <span class="language-color" aria-label="Other 1.3%" style="width:61.3%; background-color:<%= color%>;" itemprop="keywords">Other</span>
+  </button>
+  <div class="card-body">
+  </div>
+</div>

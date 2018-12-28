@@ -10,6 +10,9 @@ class StreamsController < ApplicationController
   # GET /streams/1
   # GET /streams/1.json
   def show
+    @posts = @stream.posts
+    @questions = @stream.questions
+    @combined = (@posts + @questions).sort_by {|record| record.created_at}
   end
 
   # GET /streams/new
@@ -28,6 +31,7 @@ class StreamsController < ApplicationController
 
     respond_to do |format|
       if @stream.save
+        manage_uploads(@stream)
         format.html { redirect_to @stream, notice: 'Stream was successfully created.' }
         format.json { render :show, status: :created, location: @stream }
       else
@@ -42,6 +46,7 @@ class StreamsController < ApplicationController
   def update
     respond_to do |format|
       if @stream.update(stream_params)
+        manage_uploads(@stream)
         format.html { redirect_to @stream, notice: 'Stream was successfully updated.' }
         format.json { render :show, status: :ok, location: @stream }
       else
@@ -69,6 +74,6 @@ class StreamsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def stream_params
-      params.require(:stream).permit(:uuid, :user_id, :title, :subdomain)
+      params.require(:stream).permit(:uuid, :user_id, :title, :subdomain, :details)
     end
 end
