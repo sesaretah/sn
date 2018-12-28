@@ -109,7 +109,7 @@ height: 100%; width: 100%;
   display: flex;
 }
 
-.repository-lang-stats{position:relative}
+.repository-lang-stats{position:relative;}
 .repository-lang-stats ol.repository-lang-stats-numbers li{border-bottom:0;display:table-cell;padding:10px 5px;text-align:center;white-space:nowrap;width:1%}
 .repository-lang-stats ol.repository-lang-stats-numbers li span.percent{float:none}
 .repository-lang-stats ol.repository-lang-stats-numbers li>a,.repository-lang-stats ol.repository-lang-stats-numbers li>span{color:#6a737d;font-weight:600;text-decoration:none}

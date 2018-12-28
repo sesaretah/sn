@@ -1,26 +1,17 @@
-<div class="card">
-  <%= form_for @post do |f|%>
-  <div class='card-body'>
-    <div class="row">
-      <div class="col-md-5">
-        <div class="form-group">
-          <%= f.label :title, class: "form-label" %>
-          <%= f.text_field :title, class: "form-control"%>
-        </div>
-      </div>
-    </div>
-
+<div class="col-12">
+  <%= form_for '/comments' do |f|%>
     <% if @upload_ids.blank?%>
     <%= hidden_field_tag :attachments, ''%>
     <%else%>
     <%= hidden_field_tag :attachments, @upload_ids.split(',')%>
     <%end%>
-    <%= f.hidden_field :content%>
-    <trix-editor input="post_content"></trix-editor>
+    <%= hidden_field_tag :content%>
+    <div id='toolbar' style='display:none;'></div>
+    <trix-editor input="content" toolbar="toolbar"></trix-editor>
   <%end%>
-</div>
-  <div class="card-footer text-right">
-    <button id='submit-btn' type="submit" class="btn btn-primary"><%=t :submit%></button>
+
+  <div class="text-right mt-2 mb-2">
+    <button id='submit-btn' type="submit" class="btn btn-sm btn-primary"><%=t :submit%></button>
   </div>
   <script>
   $( "#submit-btn" ).click(function() {
@@ -43,7 +34,7 @@
       var endpoint = "/uploads";
       form.append("Content-Type", file.type);
       form.append("file", file);
-      form.append("upload[uploadable_type]", 'Blog');
+      form.append("upload[uploadable_type]", 'Comment');
       form.append("upload[uploadable_id]", '0');
       form.append("authenticity_token", window._token);
 
