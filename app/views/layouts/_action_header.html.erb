@@ -1,36 +1,21 @@
-<% if params[:action] == 'index' && ['streams', 'tour_packages'].include?(params[:controller])%>
-  <div class="header collapse d-lg-flex p-0" style="background-color:#008000;">
-    <div class="container">
-      <div class="row align-items-center  h-6 pr-4">
+<div class="header collapse d-lg-flex p-0" style="background-color:#008000;">
+  <div class="container">
+    <div class="row align-items-center  h-6 pr-4">
+      <% if params[:action] == 'index' && params[:controller] == "advertisements"%>
+      <ul class="nav nav-tabs border-0 flex-column flex-lg-row text-white">
+        <li class="nav-item" ><%= link_to "/advertisements", style: "color: #fff;" do%><%=t :all%><%end%></li>
+        <% for category in Category.all.limit(6)%>
+        <li class="nav-item" ><%= link_to "/advertisements?category_id=#{category.id}", style: "color: #fff;" do%><%= category.title%><%end%></li>
+        <%end%>
+      </ul>
+      <%end%>
+      <% if params[:action] == 'index' && ['advertisements', 'blogs'].include?(params[:controller])%>
+      <div class="mr-auto">
         <ul class="nav nav-tabs border-0 flex-column flex-lg-row text-white">
           <li class="nav-item" ><%=link_to raw("<i class='fe fe-plus-square' style='vertical-align:-3px;'></i>") + t("new_#{params[:controller]}"), "#{params[:controller]}/new", style: "color: #fff;"%></li>
         </ul>
       </div>
+      <%end%>
     </div>
   </div>
-<%end%>
-<% if params[:action] == 'show' && params[:controller] == 'streams'%>
-  <div class="header collapse d-lg-flex p-0" style="background-color:#008000;">
-    <div class="container">
-      <div class="row align-items-center  h-6 pr-4">
-        <ul class="nav nav-tabs border-0 flex-column flex-lg-row text-white">
-          <li class="nav-item">
-            <%=link_to "/posts/new?stream_id=#{@stream.id}" do %>
-              <span style='color:#fff'><i class="fa fa-edit" style="vertical-align:-3px;"></i> <%=t :new_post %></span>
-            <% end %>
-          </li>
-          <li class="nav-item">
-            <%=link_to "/questions/new?stream_id=#{@stream.id}" do %>
-              <span style='color:#fff'><i class="fa fa-question" style="vertical-align:-3px;"></i> <%=t :new_question %></span>
-            <%end %>
-          </li>
-          <li class="nav-item">
-            <%=link_to "/polls/new" do %>
-              <span style='color:#fff'><i class="fa fa-poll-h" style="vertical-align:-3px;"></i> <%=t :new_poll %></span>
-            <% end %>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-<%end%>
+</div>

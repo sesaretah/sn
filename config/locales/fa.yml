@@ -234,10 +234,19 @@ fa:
             password: 'رمز عبور'
             password_confirmation: 'تکرار رمز عبور'
             remember_me: 'مرا به خاطر بسپار'
+            fullname: 'نام و نام خانوادگی'
   will_paginate:
     page_gap: "&hellip;"
     previous_label: "قبلی"
     next_label: "بعدی"
+  shoa: 'شعاع '
+  shoa_details: 'شبکه اجتماعی علمی '
+  search: 'جستجو'
+  copyrights: 'کلیه ی حقوق این سایت متعق است به'
+  is_agreed: 'موافقم'
+  terms_and_policy: 'با قوانین و مقرارت'
+  enter_mobile: '091XXXXXXX'
+  fullname: 'نام و نام خانوادگی'
   color: 'رنگ'
   title: 'عنوان'
   new_discussion: 'گفتگوی جدید'

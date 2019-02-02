@@ -1,43 +1,46 @@
 <div class="header py-2 bg-blue-lightest">
   <div class="container">
     <div class="d-flex">
-      <a class="header-brand" href="./index.html">
-        <img src="/assets/logo.png" class="header-brand-img" alt="tabler logo">
-        <span style='margin-right: -10px;margin-top:-3px;'><%=t :shoa%></span>
+      <a class="header-brand" href="/">
+        <img src="<%= asset_url('logo.png')%>" class="header-brand-img" alt="tabler logo">
       </a>
-      <div class="d-flex order-lg-2 mr-auto mt-2">
+      <div style="line-height: 16px;font-size: 1rem;font-weight: 600;color: #008000;display: inline;"><%=t :shoa%><br />
+        <span class="text-muted" style="font-size: 0.6rem;"><%=t :shoa_details%></span>
+      </div>
+
+      <div class="d-flex order-lg-2 mr-auto">
+        <div class="nav-item d-none d-md-flex">
+          <% if !user_signed_in?%>
+            <a href="/users/sign_in" class="btn btn-sm btn-secondary"><%=t :sign_in_or_sign_up%></a>
+          <%end%>
+        </div>
+        <% if user_signed_in? && !current_user.profile.blank? %>
+        <% if !current_user.roles.blank?%>
+        <div class="dropdown ml-2">
+          <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
+            <i class="fe fe-briefcase mr-2"></i><%=t :change_current_role%>
+          </button>
+          <div class="dropdown-menu" style="  right: 0px !important;">
+              <%= render partial: '/roles/current_role'%>
+          </div>
+          </div>
+          <%end%>
         <div class="dropdown">
           <a href="#" class="nav-link pr-0 leading-none" data-toggle="dropdown">
-            <span class="avatar" style="background-image: url(./demo/faces/female/25.jpg)"></span>
+            <span class="avatar" style="background-image: url(<%= current_user.profile.image('thumb')%>)"></span>
             <span class="ml-2 d-none d-lg-block">
-              <span class="text-default">Jane Pearson</span>
-              <small class="text-muted d-block mt-1">Administrator</small>
+              <span class="text-default"><%= current_user.profile.name%></span>
             </span>
           </a>
           <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-            <a class="dropdown-item" href="#">
-              <i class="dropdown-icon fe fe-user"></i> Profile
-            </a>
-            <a class="dropdown-item" href="#">
-              <i class="dropdown-icon fe fe-settings"></i> Settings
-            </a>
-            <a class="dropdown-item" href="#">
-              <span class="float-right"><span class="badge badge-primary">6</span></span>
-              <i class="dropdown-icon fe fe-mail"></i> Inbox
-            </a>
-            <a class="dropdown-item" href="#">
-              <i class="dropdown-icon fe fe-send"></i> Message
-            </a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">
-              <i class="dropdown-icon fe fe-help-circle"></i> Need help?
-            </a>
             <a class="dropdown-item" href="/users/sign_out">
               <i class="dropdown-icon fe fe-log-out"></i> <%=t :sign_out%>
             </a>
           </div>
         </div>
+        <%end%>
       </div>
+
       <a href="#" class="header-toggler d-lg-none ml-3 ml-lg-0" data-toggle="collapse" data-target="#headerMenuCollapse">
         <span class="header-toggler-icon"></span>
       </a>
@@ -50,7 +53,7 @@
     <div class="row align-items-center">
       <div class="col-lg-3 ml-auto">
         <form class="input-icon my-3 my-lg-0">
-          <input type="search" class="form-control header-search" placeholder="Search&hellip;" tabindex="1">
+          <input type="search" class="form-control header-search" placeholder="<%=t :search%>&hellip;" tabindex="1">
           <div class="input-icon-addon">
             <i class="fe fe-search"></i>
           </div>
