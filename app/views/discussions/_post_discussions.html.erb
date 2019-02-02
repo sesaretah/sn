@@ -56,6 +56,10 @@
     <% end %>
   </span>
   <div class="card-body">
-  <%= render partial: 'comments/discussion_comments'%>
+  <% @discussion = Discussion.find_by_uuid(params[:discussion_id])%>
+  <% if @discussion.blank?%>
+  <% @discussion = @post.discussions.first%>
+  <%end%>
+  <%= render partial: 'comments/discussion_comments', discussion: @discussion%>
   </div>
 </div>

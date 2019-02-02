@@ -1,70 +1,92 @@
-<div class="col-12">
-  <%= form_for '/comments' do |f|%>
+<div id='discussion-comments'>
+  <ul class="list-group card-list-group">
+    <%for comment in @discussion.comments%>
+    <li class="list-group-item py-5">
+      <div class="media">
+        <div class="media-object avatar avatar-md mr-4" style="background-image: url(demo/faces/male/16.jpg)"></div>
+        <div class="media-body">
+          <div class="media-heading">
+            <small class="float-right text-muted">12 min</small>
+            <h5>Peter Richards</h5>
+          </div>
+          <div>
+            <%= sanitize comment.content %>
+          </div>
+        </div>
+      </div>
+
+    </li>
+    <%end%>
+  </ul>
+  <div class="col-12">
+    <%= form_for Comment.new, remote: true do |f|%>
     <% if @upload_ids.blank?%>
     <%= hidden_field_tag :attachments, ''%>
     <%else%>
     <%= hidden_field_tag :attachments, @upload_ids.split(',')%>
     <%end%>
+    <%= hidden_field_tag :discussion_id, @discussion.id%>
     <%= hidden_field_tag :content%>
     <div id='toolbar' style='display:none;'></div>
     <trix-editor input="content" toolbar="toolbar"></trix-editor>
-  <%end%>
+    <%end%>
 
-  <div class="text-right mt-2 mb-2">
-    <button id='submit-btn' type="submit" class="btn btn-sm btn-primary"><%=t :submit%></button>
+    <div class="text-right mt-2 mb-2">
+      <button id='submit-btn' type="submit" class="btn btn-sm btn-primary"><%=t :submit%></button>
+    </div>
+    <script>
+      $( "#submit-btn" ).click(function() {
+        console.log('clicked');
+        $( "#new_comment" ).submit();
+      });
+    </script>
   </div>
-  <script>
-  $( "#submit-btn" ).click(function() {
-    console.log('clicked');
-    $( ".<%= params[:action]%>_post" ).submit();
-  });
+  <script type="text/javascript">
+    $(document).ready(function() {
+      Trix.config.attachments.preview.caption = {
+        name: false,
+        size: false
+      };
+
+      function uploadAttachment(attachment) {
+        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+        var file = attachment.file;
+        var form = new FormData;
+        var endpoint = "/uploads";
+        form.append("Content-Type", file.type);
+        form.append("file", file);
+        form.append("upload[uploadable_type]", 'Comment');
+        form.append("upload[uploadable_id]", '0');
+        form.append("authenticity_token", window._token);
+
+        xhr = new XMLHttpRequest;
+        xhr.open("POST", endpoint, true);
+        xhr.setRequestHeader("X-CSRF-Token", csrfToken);
+
+        xhr.upload.onprogress = function(event) {
+          var progress = event.loaded / event.total * 100;
+          return attachment.setUploadProgress(progress);
+        };
+
+        xhr.onload = function() {
+          if (this.status >= 200 && this.status < 300) {
+            var data = JSON.parse(this.responseText);
+            $('#attachments').val($('#attachments').val() + ',' + data.id);
+            return attachment.setAttributes({
+              url: data.extra
+            });
+          }
+        };
+
+        return xhr.send(form);
+      };
+
+      document.addEventListener("trix-attachment-add", function(event) {
+        var attachment = event.attachment;
+        if (attachment.file) {
+          return uploadAttachment(attachment);
+        }
+      });
+    });
   </script>
 </div>
-<script type="text/javascript">
-  $(document).ready(function() {
-    Trix.config.attachments.preview.caption = {
-      name: false,
-      size: false
-    };
-
-    function uploadAttachment(attachment) {
-      var csrfToken = $('meta[name="csrf-token"]').attr('content');
-      var file = attachment.file;
-      var form = new FormData;
-      var endpoint = "/uploads";
-      form.append("Content-Type", file.type);
-      form.append("file", file);
-      form.append("upload[uploadable_type]", 'Comment');
-      form.append("upload[uploadable_id]", '0');
-      form.append("authenticity_token", window._token);
-
-      xhr = new XMLHttpRequest;
-      xhr.open("POST", endpoint, true);
-      xhr.setRequestHeader("X-CSRF-Token", csrfToken);
-
-      xhr.upload.onprogress = function(event) {
-        var progress = event.loaded / event.total * 100;
-        return attachment.setUploadProgress(progress);
-      };
-
-      xhr.onload = function() {
-        if (this.status >= 200 && this.status < 300) {
-          var data = JSON.parse(this.responseText);
-          $('#attachments').val($('#attachments').val() + ',' + data.id);
-            return attachment.setAttributes({
-            url: data.extra
-          });
-        }
-      };
-
-      return xhr.send(form);
-    };
-
-    document.addEventListener("trix-attachment-add", function(event) {
-      var attachment = event.attachment;
-      if (attachment.file) {
-        return uploadAttachment(attachment);
-      }
-    });
-  });
-</script>
