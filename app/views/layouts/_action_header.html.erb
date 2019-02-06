@@ -9,7 +9,7 @@
         <%end%>
       </ul>
       <%end%>
-      <% if params[:action] == 'index' && ['advertisements', 'blogs'].include?(params[:controller])%>
+      <% if params[:action] == 'index' && ['streams', 'blogs'].include?(params[:controller])%>
       <div class="mr-auto">
         <ul class="nav nav-tabs border-0 flex-column flex-lg-row text-white">
           <li class="nav-item" ><%=link_to raw("<i class='fe fe-plus-square' style='vertical-align:-3px;'></i>") + t("new_#{params[:controller]}"), "#{params[:controller]}/new", style: "color: #fff;"%></li>

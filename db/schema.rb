@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190202070247) do
+ActiveRecord::Schema.define(version: 20190205112159) do
 
   create_table "answers", force: :cascade do |t|
     t.string   "content",     limit: 255
@@ -67,6 +67,7 @@ ActiveRecord::Schema.define(version: 20190202070247) do
     t.text     "content",    limit: 65535
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
+    t.integer  "user_id",    limit: 4
   end
 
   add_index "posts", ["stream_id"], name: "index_posts_on_stream_id", using: :btree

@@ -24,3 +24,16 @@
     </div>
   </div>
 </div>
+
+<% if params[:action] == 'show'%>
+<div class="list-group list-group-transparent mb-4 text-center">
+  <%= link_to stream, class: "list-group-item list-group-item-action active small", style:'font-weight:normal;',  method: :delete, data: { confirm: 'Are you sure?' } do%>
+  <i class="fe fe-trash" style="vertical-align:middle;"></i> <%=t :delete_this_stream%>
+  <%end%>
+</div>
+<div class="list-group list-group-transparent mb-4 text-center">
+  <%= link_to "/streams/#{stream.id}/edit", class: "list-group-item list-group-item-action active small", style:'font-weight:normal;' do%>
+  <i class="fe fe-edit" style="vertical-align:middle;"></i> <%=t :edit%>
+  <%end%>
+</div>
+<%end%>

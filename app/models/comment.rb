@@ -2,7 +2,7 @@ class Comment < ActiveRecord::Base
   self.primary_key = 'uuid'
   belongs_to :discussion
   has_many :uploads, :as => :uploadable, :dependent => :destroy
-
+  belongs_to :user
   before_create :set_uuid
   def set_uuid
     self.uuid = SecureRandom.uuid

@@ -7,8 +7,11 @@
       <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: 'card'}) do |f| %>
 
       <div class="card-body p-6">
-        <div class="text-center mb-6 img-auto">
-        
+        <div class="d-flex mb-6 mr-auto ml-auto">
+          <img src="/assets/logo.png" class="h-6" alt="">
+          <div class="ml-4" style="line-height: 18px;font-size: 1rem;font-weight: 600;color: #008000;display: inline;"><%=t :shoa%><br />
+            <span class="text-muted" style="font-size: 0.6rem;"><%=t :shoa_details%></span>
+          </div>
         </div>
         <div class="card-title"><%=t :sign_up%></div>
         <div class="form-group">
@@ -38,16 +41,16 @@
         <div class="form-group">
           <label class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input">
-            <span class="custom-control-label" style="padding-right: 5px;padding-top: 5px;"><a href="terms.html"><%=t :terms_and_policy %></a>  <%=t :is_agreed%></span>
+            <span class="custom-control-label" style="font-size: 12px; padding-right: 3px;padding-top: 10px;"><a class="text-green" href="terms.html"><%=t :terms_and_policy %></a>  <%=t :is_agreed%></span>
           </label>
         </div>
         <div class="form-footer mb-3">
-          <button type="submit" class="btn btn-primary btn-block"><%=t :sign_up%></button>
+          <button type="submit" class="btn btn-green btn-block"><%=t :sign_up%></button>
         </div>
       </div>
       <%end%>
       <div class="text-center text-muted">
-        <%=t :already_have_account%> <a href="/users/sign_in"><%=t :sign_in%></a>
+        <%=t :already_have_account%> <a class="text-green" href="/users/sign_in"><%=t :sign_in%></a>
       </div>
     </div>
   </div>

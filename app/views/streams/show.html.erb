@@ -1,32 +1,34 @@
 <div class='row'>
-  <div class="col-lg-4 order-lg-1">
+  <div class="col-lg-4 ">
     <%= render partial: 'streams/stream_block', locals: {stream: @stream}%>
   </div>
-  <div class="col-lg-8 ">
+  <div class="col-lg-8 order-lg-1">
     <div class="card">
+      <div class="card-header">
+        <%= @stream.title%>
+      </div>
+      <div class="card-body justify">
+        <%= @stream.details%>
+      </div>
+    </div>
+    <div class="card">
+
       <div class="table-responsive">
+        <div class="stream-header">
+          <a href="/posts/new?stream_id=<%= @stream.id%>"><span class="avatar avatar-blue"><i class="fe fe-edit"></i></span></a>
+          <a href="/questions/new?stream_id=<%= @stream.id%>"><span class="avatar avatar-orange"><i class="fa fa-question"></i></span></a>
+        </div>
         <table class="table table-hover table-outline table-vcenter text-nowrap card-table">
           <tbody>
             <% for item in @combined %>
             <tr>
               <td class="text-center pl-2 pr-2">
-                <div class="media-object avatar avatar-md"
                 <% if item.class.name == 'Post'%>
-                style='background: #bdd6ef52 no-repeat center/cover;'
+                <span class="avatar avatar-blue"><i class="fe fe-edit"></i></span>
                 <%end%>
                 <% if item.class.name == 'Question'%>
-                style='background: #cebdef52 no-repeat center/cover;'
+                <span class="avatar avatar-orange"><i class="fa fa-question"></i>
                 <%end%>
-                >
-                <div class="icon icon-gray mr-2">
-                  <% if item.class.name == 'Post'%>
-                  <i class="fe fe-edit"></i>
-                  <% end %>
-                  <% if item.class.name == 'Question'%>
-                  <i class="fa fa-question"></i>
-                  <% end %>
-                </div>
-              </div>
             </td>
             <td style='width: 55%' class="pl-2 pr-2">
               <% if item.class.name == 'Post'%>
@@ -45,8 +47,8 @@
               </td>
               <td class="pl-2 pr-2">
                 <span class="tag mt-2">
-                  <span class="tag-avatar avatar" style="background-image: url(./demo/faces/female/16.jpg)"></span>
-                  Victoria
+                  <span class="tag-avatar avatar" style="background-image: url(<%= item.user.profile.image('tiny')%>)"></span>
+                  <%= truncate(item.user.profile.name, length: 10)%>
                 </span>
               </td>
               <td class="pl-2 pr-2">

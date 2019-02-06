@@ -8,8 +8,8 @@ Devise.setup do |config|
   # confirmation, reset password and unlock tokens in the database.
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
-  # config.secret_key = 'fdec6790d5b910e93d588f1d14a9af58965453629bafa4ad23f53e4674b6d1ee4674322b6ffc9b4fa94f306ddfe06c7e511dd243ffba9e125bc179fe980840af'
-  
+  # config.secret_key = 'bbf6f3488c54b0aab1a9f8259f54447a233a0962b36b87a3ac25eaafc178ee7564e94471833db033260f6de74d88726c0e8c5eaf007db26c5bbb548d6f37f280'
+
   # ==> Controller configuration
   # Configure the parent class to the devise controllers.
   # config.parent_controller = 'DeviseController'
@@ -40,7 +40,7 @@ Devise.setup do |config|
   # session. If you need permissions, you should implement that in a before filter.
   # You can also supply a hash where the value is a boolean determining whether
   # or not authentication should be aborted when the value is not present.
-  # config.authentication_keys = [:email]
+  config.authentication_keys = [:username]
 
   # Configure parameters from the request object used for authentication. Each entry
   # given should be a request method and it will automatically be passed to the
@@ -52,12 +52,12 @@ Devise.setup do |config|
   # Configure which authentication keys should be case-insensitive.
   # These keys will be downcased upon creating or modifying a user and when used
   # to authenticate or find a user. Default is :email.
-  config.case_insensitive_keys = [:email]
+  config.case_insensitive_keys = [:username]
 
   # Configure which authentication keys should have whitespace stripped.
   # These keys will have whitespace before and after removed upon creating or
   # modifying a user and when used to authenticate or find a user. Default is :email.
-  config.strip_whitespace_keys = [:email]
+  config.strip_whitespace_keys = [:username]
 
   # Tell if authentication through request.params is enabled. True by default.
   # It can be set to an array that will enable params authentication only for the
@@ -114,7 +114,7 @@ Devise.setup do |config|
   config.stretches = Rails.env.test? ? 1 : 11
 
   # Set up a pepper to generate the hashed password.
-  # config.pepper = '143b36dd68cf5259fd4b96c8ee34477d0527d0f242ba5da554b3d389b0fb937779f67c29072dca830ebbbefe2d2de3ce6e29389e820e9732bafe11df36312055'
+  # config.pepper = 'ee2af643da02241783fdc125ab77a7ff10bf462667342c372b233d9aa8ca94e5b68c7c42b26d386eeac191f84687e93a6a7837aea4b9c3d8faa69607c917fa61'
 
   # Send a notification to the original email when the user's email is changed.
   # config.send_email_changed_notification = false
@@ -251,7 +251,7 @@ Devise.setup do |config|
   # config.navigational_formats = ['*/*', :html]
 
   # The default HTTP method used to sign out a resource. Default is :delete.
-  config.sign_out_via = :delete
+  config.sign_out_via = :get
 
   # ==> OmniAuth
   # Add a new OmniAuth provider. Check the wiki for more information on setting
@@ -266,6 +266,14 @@ Devise.setup do |config|
   #   manager.intercept_401 = false
   #   manager.default_strategies(scope: :user).unshift :some_external_strategy
   # end
+  config.warden do |manager|
+    # Registering your new Strategy
+    manager.strategies.add(:jwt, Devise::Strategies::JsonWebToken)
+
+    # Adding the new JWT Strategy to the top of Warden's list,
+    # Scoped by what Devise would scope (typically :user)
+    manager.default_strategies(scope: :user).unshift :jwt
+  end
 
   # ==> Mountable engine configurations
   # When using Devise inside an engine, let's call it `MyEngine`, and this engine
@@ -287,4 +295,5 @@ Devise.setup do |config|
   # ActiveSupport.on_load(:devise_failure_app) do
   #   include Turbolinks::Controller
   # end
+    config.secret_key = 'dfadcc805a15bc7721362fea97233d81cc3f3aa41915d32c13616700ad45fdaa73fcdabdb38c874a4d3d4a3c1481b8f3414eb1f33e35e5d00cd07ddd6de60871'
 end

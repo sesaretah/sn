@@ -9,6 +9,7 @@
         </div>
       </div>
     </div>
+    <%= f.hidden_field :stream_id, value: params[:stream_id]%>
 
     <% if @upload_ids.blank?%>
     <%= hidden_field_tag :attachments, ''%>

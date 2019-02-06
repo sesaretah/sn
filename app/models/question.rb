@@ -4,6 +4,7 @@ class Question < ActiveRecord::Base
   belongs_to :stream
   has_many :answers
   has_many :uploads, :as => :uploadable, :dependent => :destroy
+  belongs_to :user
 
   before_create :set_uuid
   def set_uuid

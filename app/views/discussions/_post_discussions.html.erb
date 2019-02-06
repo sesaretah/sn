@@ -48,18 +48,15 @@
       $('#discussion_modal').modal('show');
     });
   </script>
-  <span class="d-flex p-0 repository-lang-stats-graph js-toggle-lang-stats" style='height: 11px;'>
-    <% @discussion_ids = @post.discussions.pluck(:id) %>
-    <% @comments_count = Comment.where('discussion_id IN (?)', @discussion_ids).count %>
-    <% for discussion in @post.discussions%>
-    <span id='discussion-<%= discussion.id%>' class="language-color" style="width:<%= ((discussion.comments.count + 1) / (@comments_count + 1)) * 100%>%; background-color:<%= discussion.color %>;"></span>
-    <% end %>
-  </span>
-  <div class="card-body">
+
   <% @discussion = Discussion.find_by_uuid(params[:discussion_id])%>
   <% if @discussion.blank?%>
-  <% @discussion = @post.discussions.first%>
+  <% @discussion = @post.discussions.order('created_at').first%>
   <%end%>
-  <%= render partial: 'comments/discussion_comments', discussion: @discussion%>
-  </div>
+  <% if !@discussion.blank?%>
+    <%= render partial: 'comments/discussion_comments', locals: {discussion: @discussion}%>
+  <%else%>
+  <div id='discussion-comments'></div>
+  <%end%>
+
 </div>

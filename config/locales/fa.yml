@@ -239,6 +239,9 @@ fa:
     page_gap: "&hellip;"
     previous_label: "قبلی"
     next_label: "بعدی"
+  are_you_sure: 'آیا مطمئن هستید؟ '
+  sign_in_or_sign_up: 'ثبت نام | ورود'
+  delete_this_stream: 'حذف این رشتو '
   shoa: 'شعاع '
   shoa_details: 'شبکه اجتماعی علمی '
   search: 'جستجو'

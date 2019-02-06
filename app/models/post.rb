@@ -3,6 +3,7 @@ class Post < ActiveRecord::Base
   has_many :discussions
   belongs_to :stream
   has_many :uploads, :as => :uploadable, :dependent => :destroy
+  belongs_to :user
 
   def cover(style)
     @upload = Upload.where(uploadable_type: 'Post', uploadable_id: self.id, attachment_type: 'post_attachment').first
@@ -13,7 +14,7 @@ class Post < ActiveRecord::Base
     end
   end
 
-  
+
   before_create :set_uuid
   def set_uuid
     self.uuid = SecureRandom.uuid
