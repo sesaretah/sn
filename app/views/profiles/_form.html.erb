@@ -1,0 +1,67 @@
+<div class="card">
+  <%= form_for(@profile) do |f| %>
+  <div class="card-header">
+    <h3 class="card-title"><%=t :profile_form %></h3>
+  </div>
+  <% if @profile.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@profile.errors.count, "error") %> prohibited this profile from being saved:</h2>
+
+    <ul>
+      <% @profile.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+  <% end %>
+
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="form-group">
+          <%= f.label :name, class: "form-label" %>
+          <%= f.text_field :name , class: "form-control" %>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="form-group">
+          <%= f.label :sex, class: "form-label" %>
+          <%= f.select :sex, options_for_select(sexes) , {include_blank: true} ,{ class:"form-control"}%>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-7">
+        <div class="form-group">
+          <%= f.label :bio, class: "form-label" %>
+          <%= f.text_area :bio , class: "form-control" %>
+        </div>
+      </div>
+    </div>
+    <% if @upload_ids.blank?%>
+    <%= hidden_field_tag :attachments, ''%>
+    <%else%>
+    <%= hidden_field_tag :attachments, @upload_ids.split(',')%>
+    <%end%>
+    <% end %>
+    <div class="row">
+      <div class="col-md-12">
+        <h5 class="mt-5"><%=t :profile_avatar%></h5>
+        <hr class="mt-2 mb-2"/>
+        <%= render partial: 'uploads/upload_form', locals: {item: @profile, ratio: '4/4', class_name: 'Profile', type:'profile_avatar', max: 1}%>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-footer text-right">
+    <button id='submit-btn' type="submit" class="btn btn-primary"><%=t :submit%></button>
+  </div>
+  <script>
+  $( "#submit-btn" ).click(function() {
+    console.log('clicked');
+    $( ".<%= params[:action]%>_profile" ).submit();
+  });
+  </script>
+</div>

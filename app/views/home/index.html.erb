@@ -1,0 +1,21 @@
+<div class="row ">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header" style="background-color: #fff;">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="<%=t :search%>">
+          <div class="input-group-append">
+            <button type="button" class="btn btn-secondary">
+              <i class="fe fe-search"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="card-body" style="background: #f5f7fb;">
+        <% for share in @shares %>
+        <%= render partial:'/shares/share_block', locals: {item: share.shareable}%>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

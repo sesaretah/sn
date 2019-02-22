@@ -1,0 +1,5 @@
+<div id="profile-section" >
+<%for share in profile.user.shares.order('created_at desc')%>
+<%= render partial:'/shares/share_block', locals: {item: share.shareable}%>
+<%end%>
+</div>

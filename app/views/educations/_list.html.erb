@@ -1,0 +1,35 @@
+<table class="table table-hover table-outline table-vcenter text-nowrap small">
+  <thead>
+    <tr>
+      <td><i class="fas fa-hashtag"></i></td>
+      <td><%=t :school_name %></td>
+      <td><%=t :grad_level %></td>
+      <td><%=t :grad_year %></td>
+      <td><%=t :field %></td>
+      <td><%=t :country %></td>
+      <td><%=t :city %></td>
+      <td></td>
+    </tr>
+  </thead>
+  <tbody>
+    <% @i = 1%>
+    <% for education in profile.user.educations%>
+    <tr>
+      <td><%=@i%> <%@i += 1%></td>
+      <td><%=t education.school_name %></td>
+      <td><%=t education.grad_level %></td>
+      <td><%=t education.grad_year %></td>
+      <td><%=t education.field %></td>
+      <td><%=t education.country %></td>
+      <td><%=t education.city %></td>
+      <td>
+        <% if current_user.id == education.user_id%>
+        <%= link_to "/educations/#{education.id}/destroy", remote: true, class: "icon" ,data: { confirm: t(:are_you_sure) } do %>
+        <i class="fe fe-trash"></i>
+        <%end%>
+        <%end%>
+      </td>
+      </tr>
+      <%end%>
+    </tbody>
+  </table>

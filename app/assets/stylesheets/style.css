@@ -198,3 +198,7 @@ height: 100%; width: 100%;
 @keyframes bump {
   30% { transform: scale(1.2); }
 }
+
+.card-aside-column {
+  flex: 0 0 12%;
+}

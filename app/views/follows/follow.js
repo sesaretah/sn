@@ -1,0 +1,1 @@
+$("#follow-<%= @follow.followable_type%>-<%= @follow.followable_id%>").replaceWith("<%= escape_javascript(render(:partial => 'follows/follow', locals: {type: @follow.followable_type, id: @follow.followable_id})) %>");

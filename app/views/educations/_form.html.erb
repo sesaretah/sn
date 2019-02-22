@@ -1,0 +1,48 @@
+<% if current_user.id == profile.user_id%>
+  <%= form_tag '/educations', remote: true, method: :post do%>
+  <div class="row">
+    <div class="col-md-3">
+      <div class="form-group">
+        <label class="form-label"><%=t :school_name%></label>
+        <%= text_field_tag :school_name, nil , class: "form-control" %>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label class="form-label"><%=t :grad_level%></label>
+        <%= text_field_tag :grad_level, nil , class: "form-control" %>
+      </div>
+    </div>
+    <div class="col-md-2">
+      <div class="form-group">
+        <label class="form-label"><%=t :grad_year%></label>
+        <%= text_field_tag :grad_year, nil , class: "form-control" %>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label class="form-label"><%=t :field%></label>
+        <%= text_field_tag :field, nil , class: "form-control"%>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label class="form-label"><%=t :country%></label>
+        <%= text_field_tag :country, nil , class: "form-control" %>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label class="form-label"><%=t :city%></label>
+        <%= text_field_tag :city, nil , class: "form-control" %>
+      </div>
+    </div>
+    <div class="col-md-2" style="margin-top:27px;">
+      <button type="submit" class="btn btn-primary"><%=t :submit%></button>
+    </div>
+  </div>
+  <%end%>
+<%end%>
+<div class="card-body">
+  <%= render partial: 'educations/list', locals: {profile: profile}%>
+</div>

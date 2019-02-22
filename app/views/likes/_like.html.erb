@@ -1,0 +1,11 @@
+<span id="like-<%= type%>-<%= id%>">
+<% if Like.user_like(current_user, type, id)%>
+<%= link_to "/likes/like?likeable_type=#{type}&likeable_id=#{id}", remote: true do %>
+<i class="far fa-heart" style="color: #bbbbbb;"></i>
+<%end%>
+<%else%>
+<%= link_to "/likes/dislike?likeable_type=#{type}&likeable_id=#{id}", remote: true  do%>
+<i class="fas fa-heart"></i>
+<%end%>
+<%end%>
+</span>

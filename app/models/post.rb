@@ -3,6 +3,7 @@ class Post < ActiveRecord::Base
   has_many :discussions
   belongs_to :stream
   has_many :uploads, :as => :uploadable, :dependent => :destroy
+  has_many :shares, :as => :shareable, :dependent => :destroy
   belongs_to :user
 
   def cover(style)
@@ -14,6 +15,24 @@ class Post < ActiveRecord::Base
     end
   end
 
+  def image(style)
+    @upload = Upload.where(uploadable_type: 'Post', uploadable_id: self.id, attachment_type: 'post_attachment').first
+    if !@upload.blank?
+      return @upload.attachment(style)
+    else
+      ActionController::Base.helpers.asset_path("noimage-#{style}.png", :digest => false)
+    end
+  end
+
+  after_create :set_share
+
+  def set_share
+    Share.create(shareable_id: self.id, shareable_type: 'Post', stream_id: self.stream_id)
+  end
+
+  def name
+    self.title
+  end
 
   before_create :set_uuid
   def set_uuid

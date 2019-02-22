@@ -22,6 +22,7 @@ class StreamsController < ApplicationController
 
   # GET /streams/1/edit
   def edit
+    @upload_ids = Upload.where(uploadable_type: 'Stream', uploadable_id: @stream.id).pluck(:id)
   end
 
   # POST /streams

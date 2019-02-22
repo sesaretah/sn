@@ -1,0 +1,52 @@
+<div class='row'>
+  <div class="col-lg-3 order-lg-1">
+    <div class="card ">
+      <div class="card-header" style="background-color: #19381c;"></div>
+      <div class="card-body text-center">
+        <img class="card-profile-img" src="<%= @profile.image('thumb')%>">
+        <h4 class="mb-3"><%= @profile.name %></h4>
+        <p class="mb-4 text-muted">
+          <%=truncate(@profile.bio, length: 100) %>
+        </p>
+        <div class="ml-auto mr-auto text-muted">
+          <%= render partial:'/follows/follow', locals:{type: 'Profile', id: @profile.id}%>
+          <%= render partial:'/shares/share', locals:{type: 'Profile', id: @profile.id}%>
+          <%= render partial:'/likes/like', locals:{type: 'Profile', id: @profile.id}%>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-9 order-lg-1">
+    <div class="card">
+      <div class="card-header" style="background-color: #fff;">
+        <h3 class="card-title"></h3>
+        <div class="card-options">
+          <%= link_to "/profiles/shares/#{@profile.id}", remote: true, class: "btn btn-sm btn-secondary" do %>
+          <i class="fas fa-retweet"></i> <%=t :shares%>
+          <%end%>
+          <%= link_to "/profiles/libraries/#{@profile.id}", remote: true, class: "btn btn-sm btn-secondary" do %>
+          <i class="fas fa-book-reader"></i> <%=t :libraries%>
+          <%end%>
+          <%= link_to "/profiles/educations/#{@profile.id}", remote: true, class: "btn btn-sm btn-secondary" do %>
+          <i class="fas fa-graduation-cap"></i> <%=t :educations%>
+          <%end%>
+          <%= link_to "/profiles/details/#{@profile.id}", remote: true, class: "btn btn-sm btn-secondary" do %>
+          <i class="fe fe-play"></i> <%=t :details%>
+          <%end%>
+          <%= link_to "/profiles/#{@profile.id}/edit", class: "btn btn-sm btn-secondary" do %>
+          <i class="fe fe-edit"></i> <%=t :edit%>
+          <%end%>
+        </div>
+      </div>
+      <div class="card-body" style="background: #f5f7fb;">
+        <div class='row'>
+          <div class='col-md-12 col-lg-12'>
+            <div id="profile-section">
+
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

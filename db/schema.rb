@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190205112159) do
+ActiveRecord::Schema.define(version: 20190219100319) do
 
   create_table "answers", force: :cascade do |t|
     t.string   "content",     limit: 255
@@ -60,6 +60,48 @@ ActiveRecord::Schema.define(version: 20190205112159) do
   add_index "discussions", ["post_id"], name: "index_discussions_on_post_id", using: :btree
   add_index "discussions", ["uuid"], name: "index_discussions_on_uuid", unique: true, using: :btree
 
+  create_table "educations", force: :cascade do |t|
+    t.string   "school_name", limit: 255
+    t.integer  "grad_year",   limit: 4
+    t.string   "country",     limit: 255
+    t.string   "city",        limit: 255
+    t.string   "field",       limit: 255
+    t.string   "uuid",        limit: 255
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.string   "grad_level",  limit: 255
+    t.integer  "user_id",     limit: 4
+  end
+
+  add_index "educations", ["uuid"], name: "index_educations_on_uuid", unique: true, using: :btree
+
+  create_table "follows", force: :cascade do |t|
+    t.string   "followable_id",   limit: 255
+    t.string   "followable_type", limit: 255
+    t.integer  "user_id",         limit: 4
+    t.integer  "status",          limit: 4
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.string   "uuid",            limit: 255
+  end
+
+  add_index "follows", ["followable_id"], name: "index_follows_on_followable_id", using: :btree
+  add_index "follows", ["followable_type"], name: "index_follows_on_followable_type", using: :btree
+  add_index "follows", ["uuid"], name: "index_follows_on_uuid", unique: true, using: :btree
+
+  create_table "likes", force: :cascade do |t|
+    t.string   "likeable_id",   limit: 255
+    t.string   "likeable_type", limit: 255
+    t.integer  "user_id",       limit: 4
+    t.string   "uuid",          limit: 255
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
+
+  add_index "likes", ["likeable_id"], name: "index_likes_on_likeable_id", using: :btree
+  add_index "likes", ["likeable_type"], name: "index_likes_on_likeable_type", using: :btree
+  add_index "likes", ["uuid"], name: "index_likes_on_uuid", unique: true, using: :btree
+
   create_table "posts", force: :cascade do |t|
     t.string   "stream_id",  limit: 255
     t.string   "uuid",       limit: 255
@@ -75,11 +117,14 @@ ActiveRecord::Schema.define(version: 20190205112159) do
 
   create_table "profiles", force: :cascade do |t|
     t.string   "name",       limit: 255
-    t.string   "mobile",     limit: 255
-    t.integer  "user_id",    limit: 4
+    t.string   "sex",        limit: 255
+    t.text     "bio",        limit: 65535
     t.string   "uuid",       limit: 255
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.integer  "user_id",    limit: 4
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.string   "mobile",     limit: 255
+    t.integer  "integer_id", limit: 4
   end
 
   add_index "profiles", ["uuid"], name: "index_profiles_on_uuid", unique: true, using: :btree
@@ -105,6 +150,21 @@ ActiveRecord::Schema.define(version: 20190205112159) do
   end
 
   add_index "roles", ["uuid"], name: "index_roles_on_uuid", unique: true, using: :btree
+
+  create_table "shares", force: :cascade do |t|
+    t.string   "shareable_id",   limit: 255
+    t.string   "shareable_type", limit: 255
+    t.integer  "user_id",        limit: 4
+    t.string   "uuid",           limit: 255
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.string   "stream_id",      limit: 255
+  end
+
+  add_index "shares", ["shareable_id"], name: "index_shares_on_shareable_id", using: :btree
+  add_index "shares", ["shareable_type"], name: "index_shares_on_shareable_type", using: :btree
+  add_index "shares", ["stream_id"], name: "index_shares_on_stream_id", using: :btree
+  add_index "shares", ["uuid"], name: "index_shares_on_uuid", unique: true, using: :btree
 
   create_table "streams", force: :cascade do |t|
     t.string   "uuid",       limit: 255
@@ -152,5 +212,16 @@ ActiveRecord::Schema.define(version: 20190205112159) do
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+
+  create_table "walls", force: :cascade do |t|
+    t.string   "shareable_id",   limit: 255
+    t.string   "shareable_type", limit: 255
+    t.integer  "user_id",        limit: 4
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
+  add_index "walls", ["shareable_id"], name: "index_walls_on_shareable_id", using: :btree
+  add_index "walls", ["shareable_type"], name: "index_walls_on_shareable_type", using: :btree
 
 end

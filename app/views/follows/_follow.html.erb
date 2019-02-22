@@ -1,0 +1,11 @@
+<span id="follow-<%= type%>-<%= id%>">
+<% if Follow.user_follow(current_user, type, id)%>
+<%= link_to "/follows/follow?followable_type=#{type}&followable_id=#{id}", remote: true do %>
+<i class="fas fa-link" style="color: #bbbbbb;"></i>
+<%end%>
+<%else%>
+<%= link_to "/follows/unfollow?followable_type=#{type}&followable_id=#{id}", remote: true  do%>
+<i class="fas fa-unlink"></i>
+<%end%>
+<%end%>
+</span>

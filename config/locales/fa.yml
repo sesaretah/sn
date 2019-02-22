@@ -216,6 +216,7 @@ fa:
             rank: 'مرتبه علمی'
             digest_email: 'ایمیل آگاهسازی'
             email: 'ایمیل'
+            bio: 'درباره من'
         stream:
             title: 'عنوان '
             details: 'شرح'
@@ -239,6 +240,17 @@ fa:
     page_gap: "&hellip;"
     previous_label: "قبلی"
     next_label: "بعدی"
+  school_name: 'نام مرکز آموزشی'
+  grad_level: 'مقطع'
+  grad_year: 'سال اتمام'
+  field: 'رشته'
+  country: 'کشور'
+  city: 'شهر'
+  shares: 'اشتراک ها '
+  libraries: 'کتابخانه ها '
+  educations: 'تحصیلات'
+  details: 'جزئیات '
+  profile_form: 'فرم اطلاعات پروفایل '
   are_you_sure: 'آیا مطمئن هستید؟ '
   sign_in_or_sign_up: 'ثبت نام | ورود'
   delete_this_stream: 'حذف این رشتو '

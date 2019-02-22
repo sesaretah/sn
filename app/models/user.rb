@@ -8,6 +8,8 @@ class User < ActiveRecord::Base
   has_one :profile
   has_many :assignments
   has_many :comments
+  has_many :shares
+  has_many :educations
 
   has_many :roles, :through => :assignments
   has_many :assignments, dependent: :destroy

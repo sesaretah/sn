@@ -1,7 +1,6 @@
 class Profile < ActiveRecord::Base
   self.primary_key = 'uuid'
   belongs_to :user
-  has_many :uploads, :as => :uploadable, :dependent => :destroy
 
   def image(style)
     @upload = Upload.where(uploadable_type: 'Profile', uploadable_id: self.id, attachment_type: 'profile_avatar').first
@@ -12,9 +11,24 @@ class Profile < ActiveRecord::Base
     end
   end
 
+  before_create :set_integer_id
+  def set_integer_id
+    @last = Profile.all.order('integer_id desc').first
+    if !@last.blank?
+      @last_id = @last.integer_id
+    else
+      @last_id = 0
+    end
+    self.integer_id = @last_id + 1
+  end
+
   before_create :set_uuid
   def set_uuid
     self.uuid = SecureRandom.uuid
+  end
+
+  def content
+    self.bio
   end
 
   def id

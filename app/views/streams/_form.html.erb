@@ -40,12 +40,17 @@
         </div>
       </div>
     </div>
+    <% if @upload_ids.blank?%>
+      <%= hidden_field_tag :attachments, ''%>
+      <%else%>
+      <%= hidden_field_tag :attachments, @upload_ids.split(',')%>
+      <%end%>
     <% end %>
     <div class="row">
       <div class="col-md-12">
         <h5 class="mt-5"><%=t :cover_photo%></h5>
         <hr class="mt-2 mb-2"/>
-        <%= render partial: 'uploads/upload_form', locals: {item: @stream, ratio: '4/3', class_name: 'Stream', type:'stream_cover', max: 1}%>
+        <%= render partial: 'uploads/upload_form', locals: {item: @stream, ratio: '4/4', class_name: 'Stream', type:'stream_cover', max: 1}%>
       </div>
     </div>
   </div>

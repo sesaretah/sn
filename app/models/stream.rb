@@ -3,6 +3,9 @@ class Stream < ActiveRecord::Base
   has_many :posts
   has_many :questions
   has_many :uploads, :as => :uploadable, :dependent => :destroy
+  has_many :follows, :as => :followable, :dependent => :destroy
+  has_many :likes, :as => :likeable, :dependent => :destroy
+  has_many :shares, :as => :shareable, :dependent => :destroy
 
   def cover(style)
     @upload = Upload.where(uploadable_type: 'Stream', uploadable_id: self.id, attachment_type: 'stream_cover').first
@@ -11,6 +14,24 @@ class Stream < ActiveRecord::Base
     else
       ActionController::Base.helpers.asset_path("noimage-35-#{style}.jpg", :digest => false)
     end
+  end
+
+  def image(style)
+    @upload = Upload.where(uploadable_type: 'Stream', uploadable_id: self.id, attachment_type: 'stream_cover').first
+    if !@upload.blank?
+      return @upload.attachment(style)
+    else
+      ActionController::Base.helpers.asset_path("noimage-#{style}.png", :digest => false)
+    end
+  end
+
+
+  def name
+    self.title
+  end
+
+  def content
+    self.details
   end
 
 

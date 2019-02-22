@@ -2,12 +2,14 @@
 
 one:
   name: MyString
-  mobile: MyString
-  user_id: 1
+  sex: MyString
+  bio: MyText
   uuid: MyString
+  user_id: 1
 
 two:
   name: MyString
-  mobile: MyString
-  user_id: 1
+  sex: MyString
+  bio: MyText
   uuid: MyString
+  user_id: 1

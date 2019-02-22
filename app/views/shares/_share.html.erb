@@ -1,0 +1,11 @@
+<span id="share-<%= type%>-<%= id%>">
+<% if Share.user_share(current_user, type, id)%>
+<%= link_to "/shares/share?shareable_type=#{type}&shareable_id=#{id}", remote: true do %>
+<i class="fas fa-retweet" style="color: #bbbbbb;"></i>
+<%end%>
+<%else%>
+<%= link_to "/shares/unshare?shareable_type=#{type}&shareable_id=#{id}", remote: true  do%>
+<i class="fas fa-retweet" style="color: #467fcf;"></i>
+<%end%>
+<%end%>
+</span>
