@@ -27,4 +27,10 @@ Rails.application.routes.draw do
 
   post '/educations', to: 'educations#create'
   get '/educations/:id/destroy', to: 'educations#destroy'
+
+  get '/api/login', to: 'api#login'
+  get '/api/streams', to: 'api#streams'
+
+  post '/api/sign_up', to: 'api#sign_up'
+  post '/api/make_post', to: 'api#make_post'
 end

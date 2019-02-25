@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190225123532) do
+ActiveRecord::Schema.define(version: 20190225134105) do
 
   create_table "answers", force: :cascade do |t|
     t.string   "content",     limit: 255
@@ -209,6 +209,7 @@ ActiveRecord::Schema.define(version: 20190225123532) do
     t.string   "username",               limit: 255
     t.string   "phone_number",           limit: 255
     t.string   "mobile",                 limit: 255
+    t.boolean  "is_robot"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
