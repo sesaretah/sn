@@ -27,7 +27,7 @@ class Profile < ActiveRecord::Base
     self.uuid = SecureRandom.uuid
   end
 
-  def content
+  def raw_content
     self.bio
   end
 

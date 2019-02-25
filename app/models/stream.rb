@@ -30,7 +30,7 @@ class Stream < ActiveRecord::Base
     self.title
   end
 
-  def content
+  def raw_content
     self.details
   end
 

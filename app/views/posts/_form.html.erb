@@ -10,7 +10,7 @@
       </div>
     </div>
     <%= f.hidden_field :stream_id, value: params[:stream_id]%>
-
+    <%= f.hidden_field :raw_content, value: ''%>
     <% if @upload_ids.blank?%>
     <%= hidden_field_tag :attachments, ''%>
     <%else%>
@@ -19,6 +19,8 @@
     <%= f.hidden_field :content%>
     <trix-editor input="post_content"></trix-editor>
   <%end%>
+
+  <script></script>
 </div>
   <div class="card-footer text-right">
     <button id='submit-btn' type="submit" class="btn btn-primary"><%=t :submit%></button>
@@ -75,6 +77,11 @@
       if (attachment.file) {
         return uploadAttachment(attachment);
       }
+    });
+
+    document.addEventListener("trix-change", function(event) {
+      var element = document.querySelector("trix-editor")
+      $("#post_raw_content").val(element.editor.getDocument().toString());
     });
   });
 </script>

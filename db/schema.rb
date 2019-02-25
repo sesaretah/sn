@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190219100319) do
+ActiveRecord::Schema.define(version: 20190225123532) do
 
   create_table "answers", force: :cascade do |t|
     t.string   "content",     limit: 255
@@ -103,13 +103,14 @@ ActiveRecord::Schema.define(version: 20190219100319) do
   add_index "likes", ["uuid"], name: "index_likes_on_uuid", unique: true, using: :btree
 
   create_table "posts", force: :cascade do |t|
-    t.string   "stream_id",  limit: 255
-    t.string   "uuid",       limit: 255
-    t.string   "title",      limit: 255
-    t.text     "content",    limit: 65535
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-    t.integer  "user_id",    limit: 4
+    t.string   "stream_id",   limit: 255
+    t.string   "uuid",        limit: 255
+    t.string   "title",       limit: 255
+    t.text     "content",     limit: 65535
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.integer  "user_id",     limit: 4
+    t.text     "raw_content", limit: 65535
   end
 
   add_index "posts", ["stream_id"], name: "index_posts_on_stream_id", using: :btree

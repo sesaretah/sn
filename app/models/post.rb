@@ -30,6 +30,7 @@ class Post < ActiveRecord::Base
     Share.create(shareable_id: self.id, shareable_type: 'Post', stream_id: self.stream_id)
   end
 
+
   def name
     self.title
   end
