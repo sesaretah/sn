@@ -33,6 +33,9 @@
             </span>
           </a>
           <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+            <a class="dropdown-item" href="/profiles/<%= current_user.profile.id%>">
+              <i class="dropdown-icon fe fe-user"></i><%=t :my_profile%>
+            </a>
             <a class="dropdown-item" href="/users/sign_out">
               <i class="dropdown-icon fe fe-log-out"></i> <%=t :sign_out%>
             </a>

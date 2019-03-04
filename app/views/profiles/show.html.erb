@@ -21,14 +21,19 @@
       <div class="card-header" style="background-color: #fff;">
         <h3 class="card-title"></h3>
         <div class="card-options">
+
+
           <%= link_to "/profiles/shares/#{@profile.id}", remote: true, class: "btn btn-sm btn-secondary" do %>
           <i class="fas fa-retweet"></i> <%=t :shares%>
           <%end%>
-          <%= link_to "/profiles/libraries/#{@profile.id}", remote: true, class: "btn btn-sm btn-secondary" do %>
-          <i class="fas fa-book-reader"></i> <%=t :libraries%>
+          <%= link_to "/profiles/bookmarks/#{@profile.id}", remote: true, class: "btn btn-sm btn-secondary" do %>
+          <i class="fas fa-bookmark"></i> <%=t :bookmarks%>
           <%end%>
           <%= link_to "/profiles/educations/#{@profile.id}", remote: true, class: "btn btn-sm btn-secondary" do %>
           <i class="fas fa-graduation-cap"></i> <%=t :educations%>
+          <%end%>
+          <%= link_to "/profiles/connections/#{@profile.id}", remote: true, class: "btn btn-sm btn-secondary" do %>
+          <i class="fas fa-user-cog"></i> <%=t :settings%>
           <%end%>
           <%= link_to "/profiles/details/#{@profile.id}", remote: true, class: "btn btn-sm btn-secondary" do %>
           <i class="fe fe-play"></i> <%=t :details%>

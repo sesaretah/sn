@@ -8,4 +8,6 @@
 <i class="fas fa-unlink" style="color: #30b749;"></i>
 <%end%>
 <%end%>
+<% @follows = Follow.where(followable_type: type, followable_id: id).count%>
+<span id='shoa-follows' style='font-size:9px;'><%= @follows%></span>
 </span>

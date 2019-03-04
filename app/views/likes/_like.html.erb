@@ -8,4 +8,6 @@
 <i class="fas fa-heart" style="color: #bf4141;"></i>
 <%end%>
 <%end%>
+<% @likes = Like.where(likeable_type: type, likeable_id: id).count%>
+<span id='shoa-likes' style='font-size:9px;'><%= @likes%></span>
 </span>

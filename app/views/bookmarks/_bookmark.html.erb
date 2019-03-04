@@ -1,0 +1,13 @@
+<span id="bookmark-<%= type%>-<%= id%>">
+<% if Bookmark.user_bookmark(current_user, type, id)%>
+<%= link_to "/bookmarks/bookmark?bookmarkable_type=#{type}&bookmarkable_id=#{id}", remote: true do %>
+<i class="far fa-bookmark" style="color: #bbbbbb;"></i>
+<%end%>
+<%else%>
+<%= link_to "/bookmarks/unbookmark?bookmarkable_type=#{type}&bookmarkable_id=#{id}", remote: true  do%>
+<i class="fas fa-bookmark" style="color: #a241bf;"></i>
+<%end%>
+<%end%>
+<% @bookmarks = Bookmark.where(bookmarkable_type: type, bookmarkable_id: id).count%>
+<span id='shoa-bookmarks' style='font-size:9px;'><%= @bookmarks%></span>
+</span>

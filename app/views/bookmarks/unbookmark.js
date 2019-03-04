@@ -1,0 +1,1 @@
+$("#bookmark-<%= @f.bookmarkable_type%>-<%= @f.bookmarkable_id%>").replaceWith("<%= escape_javascript(render(:partial => 'bookmarks/bookmark', locals: {type: @f.bookmarkable_type, id: @f.bookmarkable_id})) %>");

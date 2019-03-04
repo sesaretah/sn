@@ -114,6 +114,7 @@ GEM
       terrapin (~> 0.6.0)
     popper_js (1.14.5)
     rack (1.6.11)
+    rack-cors (1.0.2)
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (4.2.8)
@@ -219,6 +220,7 @@ DEPENDENCIES
   jwt
   mysql2 (~> 0.3.18)
   paperclip
+  rack-cors
   rails (= 4.2.8)
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)

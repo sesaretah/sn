@@ -1,0 +1,13 @@
+<script>
+function fireClose() {
+if (window.opener != null && !window.opener.closed) {
+  console.log(window.opener);
+         var uuid = document.getElementById("uuid").value;
+         window.opener.postMessage(uuid, "*");
+     }
+window.close();
+}
+$(document).on('turbolinks:load', fireClose)
+</script>
+
+ <input type="hidden" id="uuid"  value="<%= @interconnect.uuid%>">

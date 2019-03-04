@@ -240,6 +240,15 @@ fa:
     page_gap: "&hellip;"
     previous_label: "قبلی"
     next_label: "بعدی"
+  provider: 'سامانه '
+  establish_date: 'تاربخ اتصال'
+  do_you_want_to_proceed_with_interconnect_between: 'آیا مایل به برقراری اتصال زیر هستید؟'
+  ok: 'بله'
+  deny: 'خیر'
+  and: 'و'
+  Divan: 'دیوان'
+  connections: 'اتصال ها '
+  my_profile: 'پروفایل من '
   school_name: 'نام مرکز آموزشی'
   grad_level: 'مقطع'
   grad_year: 'سال اتمام'

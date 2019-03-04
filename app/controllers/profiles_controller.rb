@@ -1,10 +1,14 @@
 class ProfilesController < ApplicationController
-  before_action :set_profile, only: [:show, :edit, :update, :destroy, :shares, :educations, :details]
-
+  before_action :set_profile, only: [:show, :edit, :update, :destroy, :shares, :educations, :details, :connections]
+  before_action :check_owner, only: [:connections]
   # GET /profiles
   # GET /profiles.json
   def index
     @profiles = Profile.all
+  end
+
+  def connections
+
   end
 
   def shares
@@ -63,6 +67,12 @@ class ProfilesController < ApplicationController
   #    format.html { redirect_to profiles_url, notice: 'Profile was successfully destroyed.' }
   #    format.json { head :no_content }
   #  end
+  end
+
+  def check_owner
+    if @profile.user_id != current_user.id
+      head(403)
+    end
   end
 
   private

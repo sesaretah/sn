@@ -1,0 +1,28 @@
+<div id="profile-section" >
+  <table class="table table-hover table-outline table-vcenter text-nowrap small">
+    <thead>
+      <tr>
+        <td><i class="fas fa-hashtag"></i></td>
+        <td><%=t :provider %></td>
+        <td><%=t :establish_date %></td>
+        <td></td>
+      </tr>
+    </thead>
+    <tbody>
+      <% @i = 1%>
+<% for interconnect in current_user.interconnects%>
+      <tr>
+        <td><%=@i%> <%@i += 1%></td>
+        <td><%=t interconnect.provider%></td>
+        <td><%= to_jalali(interconnect.created_at)%></td>
+        <td>
+          <%= link_to "/interconnects/#{interconnect.id}/destroy", remote: true, class: "icon" ,data: { confirm: t(:are_you_sure) } do %>
+          <i class="fe fe-trash"></i>
+          <%end%>
+        </td>
+        </tr>
+        <%end%>
+      </tbody>
+    </table>
+
+</div>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190225134105) do
+ActiveRecord::Schema.define(version: 20190304150307) do
 
   create_table "answers", force: :cascade do |t|
     t.string   "content",     limit: 255
@@ -34,6 +34,19 @@ ActiveRecord::Schema.define(version: 20190225134105) do
 
   add_index "assignments", ["role_id"], name: "index_assignments_on_role_id", using: :btree
   add_index "assignments", ["uuid"], name: "index_assignments_on_uuid", unique: true, using: :btree
+
+  create_table "bookmarks", force: :cascade do |t|
+    t.string   "bookmarkable_id",   limit: 255
+    t.string   "bookmarkable_type", limit: 255
+    t.string   "uuid",              limit: 255
+    t.integer  "user_id",           limit: 4
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+  end
+
+  add_index "bookmarks", ["bookmarkable_id"], name: "index_bookmarks_on_bookmarkable_id", using: :btree
+  add_index "bookmarks", ["bookmarkable_type"], name: "index_bookmarks_on_bookmarkable_type", using: :btree
+  add_index "bookmarks", ["uuid"], name: "index_bookmarks_on_uuid", unique: true, using: :btree
 
   create_table "comments", force: :cascade do |t|
     t.string   "discussion_id", limit: 255
@@ -89,6 +102,18 @@ ActiveRecord::Schema.define(version: 20190225134105) do
   add_index "follows", ["followable_type"], name: "index_follows_on_followable_type", using: :btree
   add_index "follows", ["uuid"], name: "index_follows_on_uuid", unique: true, using: :btree
 
+  create_table "interconnects", force: :cascade do |t|
+    t.integer  "user_id",    limit: 4
+    t.string   "provider",   limit: 255
+    t.string   "uuid",       limit: 255
+    t.string   "token",      limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "interconnects", ["token"], name: "index_interconnects_on_token", using: :btree
+  add_index "interconnects", ["uuid"], name: "index_interconnects_on_uuid", using: :btree
+
   create_table "likes", force: :cascade do |t|
     t.string   "likeable_id",   limit: 255
     t.string   "likeable_type", limit: 255
@@ -129,6 +154,20 @@ ActiveRecord::Schema.define(version: 20190225134105) do
   end
 
   add_index "profiles", ["uuid"], name: "index_profiles_on_uuid", unique: true, using: :btree
+
+  create_table "publications", force: :cascade do |t|
+    t.string   "title",       limit: 255
+    t.text     "abstract",    limit: 65535
+    t.string   "link",        limit: 255
+    t.string   "uuid",        limit: 255
+    t.integer  "external_id", limit: 4
+    t.string   "provider",    limit: 255
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.text     "content",     limit: 65535
+  end
+
+  add_index "publications", ["uuid"], name: "index_publications_on_uuid", using: :btree
 
   create_table "questions", force: :cascade do |t|
     t.text     "content",    limit: 65535

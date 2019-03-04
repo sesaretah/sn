@@ -10,7 +10,7 @@
   </div>
 
 
-  <div class="col-md-2">
+  <div class="col-md-3">
     <div class="row">
       <div class="mt-2 pull-right h-5  mr-auto pr-2" style="color: #d6c7c7">
         <% if item.class.name == 'Profile'%>
@@ -24,12 +24,13 @@
         <%end%>
       </div>
     </div>
-    <div class="row mt-7">
+    <div class="row" style="margin-top:42px;">
       <div class="d-flex mb-0 mr-auto pr-2">
 
         <%= render partial:'/follows/follow', locals:{type: item.class.name, id: item.id}%>
-        &nbsp<%= render partial:'/shares/share', locals:{type: item.class.name, id: item.id}%>
-        &nbsp<%= render partial:'/likes/like', locals:{type: item.class.name, id: item.id}%>
+        <%= render partial:'/shares/share', locals:{type: item.class.name, id: item.id}%>
+        <%= render partial:'/likes/like', locals:{type: item.class.name, id: item.id}%>
+        <%= render partial:'/bookmarks/bookmark', locals:{type: item.class.name, id: item.id}%>
       </div>
     </div>
   </div>

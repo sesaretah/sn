@@ -17,4 +17,9 @@ module ApplicationHelper
     return @options
   end
 
+  def to_jalali(date)
+    @j = JalaliDate.to_jalali(date)
+    return "#{@j.year}/#{@j.month}/#{@j.day}"
+  end
+
 end

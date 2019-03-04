@@ -8,4 +8,6 @@
 <i class="fas fa-retweet" style="color: #467fcf;"></i>
 <%end%>
 <%end%>
+<% @shares = Share.where(shareable_type: type, shareable_id: id).count%>
+<span id='shoa-shares' style='font-size:9px;'><%= @shares%></span>
 </span>

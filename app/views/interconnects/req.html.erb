@@ -1,0 +1,10 @@
+<script>
+function cl() {
+    window.close();
+}
+</script>
+<div class="example">
+  <p><%=t :do_you_want_to_proceed_with_interconnect_between%> <%=t params[:provider]%> <%=t :and%> <%=t :shoa%></p>
+  <a href="/interconnects/connect"  class="btn btn-primary btn-block"><%=t :ok%></a>
+  <button onclick="cl();" class="btn btn-danger btn-block"><%=t :deny%></button>
+</div>

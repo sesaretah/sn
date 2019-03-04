@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  bookmarkable_id: 1
+  bookmarkable_type: MyString
+  uuid: MyString
+  user_id: 1
+
+two:
+  bookmarkable_id: 1
+  bookmarkable_type: MyString
+  uuid: MyString
+  user_id: 1

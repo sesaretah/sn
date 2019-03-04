@@ -14,6 +14,7 @@ class User < ActiveRecord::Base
 
   has_many :roles, :through => :assignments
   has_many :assignments, dependent: :destroy
+  has_many :interconnects
 
   def email_required?
     false
