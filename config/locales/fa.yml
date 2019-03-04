@@ -240,6 +240,7 @@ fa:
     page_gap: "&hellip;"
     previous_label: "قبلی"
     next_label: "بعدی"
+  bookmarks: 'نشان ها '
   provider: 'سامانه '
   establish_date: 'تاربخ اتصال'
   do_you_want_to_proceed_with_interconnect_between: 'آیا مایل به برقراری اتصال زیر هستید؟'

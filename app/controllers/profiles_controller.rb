@@ -1,5 +1,5 @@
 class ProfilesController < ApplicationController
-  before_action :set_profile, only: [:show, :edit, :update, :destroy, :shares, :educations, :details, :connections]
+  before_action :set_profile, only: [:show, :edit, :update, :destroy, :shares, :educations, :details, :connections, :bookmarks]
   before_action :check_owner, only: [:connections]
   # GET /profiles
   # GET /profiles.json
@@ -16,6 +16,10 @@ class ProfilesController < ApplicationController
   end
 
   def educations
+
+  end
+
+  def bookmarks
 
   end
 

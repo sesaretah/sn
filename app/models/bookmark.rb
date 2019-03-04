@@ -1,7 +1,7 @@
 class Bookmark < ActiveRecord::Base
   self.primary_key = 'uuid'
 
-  belongs_to :followable, :polymorphic => true
+  belongs_to :bookmarkable, :polymorphic => true
   belongs_to :stream, :class_name => "Bookmark", :foreign_key => "bookmarke_id"
 
   belongs_to :user

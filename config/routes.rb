@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :uploads
   resources :streams
   resources :comments
+  resources :publications
   root 'home#index'
   post '/discussions', to: 'discussions#create'
   get '/comments/discussion_comments/:id', to:'comments#discussion_comments'
@@ -14,6 +15,7 @@ Rails.application.routes.draw do
   get '/profiles/educations/:id', to:'profiles#educations'
   get '/profiles/details/:id', to:'profiles#details'
   get '/profiles/connections/:id', to:'profiles#connections'
+  get '/profiles/bookmarks/:id', to:'profiles#bookmarks'
 
   get '/follows/follow', to:'follows#follow'
   get '/follows/unfollow', to:'follows#unfollow'
@@ -58,7 +60,7 @@ Rails.application.routes.draw do
       get '/authorized', to: 'api#authorized'
       get '/bookmarks', to: 'api#bookmarks'
       get '/bookmark', to: 'api#bookmark'
-      post '/check_asset',to: 'api#check_asset' 
+      post '/check_asset',to: 'api#check_asset'
     end
   end
 

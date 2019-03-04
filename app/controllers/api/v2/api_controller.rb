@@ -130,7 +130,7 @@ module Api::V2
       if @this_user
         @item = params[:type].classify.constantize.find_by_external_id(params[:id])
         if @item.blank?
-          @item = params[:type].classify.constantize.create(title: params[:title], content: params[:content], link: params[:link])
+          @item = params[:type].classify.constantize.create(title: params[:title], content: params[:content], link: params[:link], external_id: params[:id])
         end
       end
       if !@item.blank?
@@ -146,8 +146,7 @@ module Api::V2
         @type = @item.class.name
         @id = @item.id
       else
-        @type= ''
-        @id = 0
+        head(500)
       end
     end
 
