@@ -29,7 +29,7 @@ class StreamsController < ApplicationController
   # POST /streams.json
   def create
     @stream = Stream.new(stream_params)
-
+    @stream.user_id = current_user.id
     respond_to do |format|
       if @stream.save
         manage_uploads(@stream)
