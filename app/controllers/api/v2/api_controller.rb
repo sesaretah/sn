@@ -1,8 +1,8 @@
 module Api::V2
   class ApiController < ApplicationController
     skip_before_action :verify_authenticity_token
-    before_filter :authenticate_user!, :except => [:likes, :like,:shares, :share,:follows, :follow, :authorized, :bookmarks, :bookmark, :check_asset]
-    before_action :find_user, only: [:likes, :like, :shares, :share, :follows, :follow, :authorized, :bookmarks, :bookmark, :check_asset]
+    before_filter :authenticate_user!, :except => [:likes, :like,:shares, :share,:follows, :follow, :authorized, :bookmarks, :bookmark, :check_asset, :streams]
+    before_action :find_user, only: [:likes, :like, :shares, :share, :follows, :follow, :authorized, :bookmarks, :bookmark, :check_asset, :streams]
     before_action :find_asset, only: [:likes, :like, :shares, :share, :follows, :follow, :bookmarks, :bookmark]
 
     def authorized
@@ -85,13 +85,8 @@ module Api::V2
     def share
       @shared = false
       if @this_user
-        @user_share = Share.where(shareable_id: @id, shareable_type: @type, user_id: @this_user.id).first
-        if !@user_share.blank?
-          @user_share.destroy
-        else
-          Share.create(shareable_id: @id, shareable_type: @type, user_id: @this_user.id)
-          @shared = true
-        end
+        Share.create(shareable_id: @id, shareable_type: @type, user_id: @this_user.id, stream_id: params[:stream])
+        @shared = true
       end
       @shares = Share.where(shareable_id: @id, shareable_type: @type)
       render :json => {result: 'OK',shares: @shares.length, shared: @shared}.to_json , :callback => params['callback']
@@ -148,6 +143,14 @@ module Api::V2
       else
         head(500)
       end
+    end
+
+    def streams
+      @streams = []
+      if @this_user
+        @streams = @this_user.streams
+      end
+      render :json => {result: 'OK', streams: @streams}.to_json , :callback => params['callback']
     end
 
 

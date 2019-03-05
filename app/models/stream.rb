@@ -7,6 +7,7 @@ class Stream < ActiveRecord::Base
   has_many :likes, :as => :likeable, :dependent => :destroy
   has_many :shares, :as => :shareable, :dependent => :destroy
   has_many :bookmarks, :as => :bookmarkable, :dependent => :destroy
+  belongs_to :user
 
   def cover(style)
     @upload = Upload.where(uploadable_type: 'Stream', uploadable_id: self.id, attachment_type: 'stream_cover').first

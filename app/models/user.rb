@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
   has_many :educations
   has_many :follows
   has_many :bookmarks
+  has_many :streams
 
   has_many :roles, :through => :assignments
   has_many :assignments, dependent: :destroy

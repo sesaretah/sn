@@ -27,7 +27,7 @@ class Post < ActiveRecord::Base
   after_create :set_share
 
   def set_share
-    Share.create(shareable_id: self.id, shareable_type: 'Post', stream_id: self.stream_id)
+    Share.create(shareable_id: self.id, shareable_type: 'Post', stream_id: self.stream_id, user_id: self.user_id)
   end
 
 

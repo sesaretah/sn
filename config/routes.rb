@@ -60,6 +60,7 @@ Rails.application.routes.draw do
       get '/authorized', to: 'api#authorized'
       get '/bookmarks', to: 'api#bookmarks'
       get '/bookmark', to: 'api#bookmark'
+      get '/streams', to: 'api#streams'
       post '/check_asset',to: 'api#check_asset'
     end
   end
