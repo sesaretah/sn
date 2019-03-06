@@ -7,6 +7,16 @@
   </div>
   <div class='card-body'>
     <div id="post" class="img-flex">
+      <div class="row">
+        <div class="col-md-12">
+          <span class="pull-left mb-2">
+            <%= link_to @publication.link do %>
+            <%=t :source%>
+            <i class="fas fa-external-link-alt"></i>
+            <%end%>
+          </span>
+        </div>
+      </div>
       <%= sanitize @publication.content%>
     </div>
   </div>
