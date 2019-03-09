@@ -1,14 +1,24 @@
 module Api::V1
   class ApiController < ApplicationController
     skip_before_action :verify_authenticity_token
-    before_filter :authenticate_user!, :except => [:make_post, :login, :sign_up]
-    #before_action :is_admin, only: []
+    before_filter :authenticate_user!, :except => [:make_post, :login, :sign_up, :likes, :like,:shares, :share,:follows, :follow, :bookmarks, :bookmark, :make_stream]
+    before_action :find_asset, only: [:likes, :like, :shares, :share, :follows, :follow, :bookmarks, :bookmark]
+    #before_action :logged_in, only: []
 
     def make_post
       @stream = Stream.find(params[:stream_id])
-      @post = Post.new(user_id: current_user.id, title: params[:title], raw_content: params[:content], content: params[:content], stream_id: @stream.id)
+      @post = Post.new(user_id: current_user.id, title: params[:title], raw_content: params[:content], content: params[:content], stream_id: @stream.id, link: params[:link], external_id: params[:external_id], provider: params[:provider], external_parent_id: params[:external_parent_id],  external_parent_type: params[:external_parent_type])
       if @post.save
         render :json => {result: 'OK', id: @post.id}.to_json , :callback => params['callback']
+      else
+        render :json => {result: 'ERROR'}.to_json , :callback => params['callback']
+      end
+    end
+
+    def make_stream
+      @stream = Stream.new(title: params[:title], details: params[:content], user_id: current_user.id)
+      if @stream.save
+        render :json => {result: 'OK', id: @stream.id}.to_json , :callback => params['callback']
       else
         render :json => {result: 'ERROR'}.to_json , :callback => params['callback']
       end
@@ -46,6 +56,122 @@ module Api::V1
         render :json => {result: 'OK', token: JWTWrapper.encode({ user_id: @user.id })}.to_json, :callback => params['callback']
       else
         render :json => {result: 'ERROR', error: @user.errors }.to_json , :callback => params['callback']
+      end
+    end
+    def likes
+      @liked = false
+      if user_signed_in?
+        @user_like = Like.where(likeable_id: @id, likeable_type: @type, user_id: current_user.id).first
+        if !@user_like.blank?
+          @liked = true
+        end
+      end
+
+      @likes = Like.where(likeable_id: @id, likeable_type: @type)
+      render :json => {result: 'OK', likes: @likes.length, liked: @liked}.to_json , :callback => params['callback']
+    end
+
+    def like
+      @liked = false
+      if  user_signed_in?
+        @user_like = Like.where(likeable_id: @id, likeable_type: @type, user_id: current_user.id).first
+        if !@user_like.blank?
+          @user_like.destroy
+        else
+          Like.create(likeable_id: @id, likeable_type: @type, user_id: current_user.id)
+          @liked = true
+        end
+      end
+      @likes = Like.where(likeable_id: @id, likeable_type: @type)
+      render :json => {result: 'OK',likes: @likes.length, liked: @liked}.to_json , :callback => params['callback']
+    end
+
+    def bookmarks
+      @bookmarked = false
+      if user_signed_in?
+        @user_bookmark = Bookmark.where(bookmarkable_id: @id, bookmarkable_type: @type, user_id: current_user.id).first
+        if !@user_bookmark.blank?
+          @bookmarked = true
+        end
+      end
+
+      @bookmarks = Bookmark.where(bookmarkable_id: @id, bookmarkable_type: @type)
+      render :json => {result: 'OK', bookmarks: @bookmarks.length, bookmarked: @bookmarked}.to_json , :callback => params['callback']
+    end
+
+    def bookmark
+      @bookmarked = false
+      if user_signed_in?
+        @user_bookmark = Bookmark.where(bookmarkable_id: @id, bookmarkable_type: @type, user_id: current_user.id).first
+        if !@user_bookmark.blank?
+          @user_bookmark.destroy
+        else
+          Bookmark.create(bookmarkable_id: @id, bookmarkable_type: @type, user_id: current_user.id)
+          @bookmarked = true
+        end
+      end
+      @bookmarks = Bookmark.where(bookmarkable_id: @id, bookmarkable_type: @type)
+      render :json => {result: 'OK',bookmarks: @bookmarks.length, bookmarked: @bookmarked}.to_json , :callback => params['callback']
+    end
+
+    def follows
+      @followed = false
+      if user_signed_in?
+        @user_follow = Follow.where(followable_id: @id, followable_type: @type, user_id: current_user.id).first
+        if !@user_follow.blank?
+          @followed = true
+        end
+      end
+
+      @follows = Follow.where(followable_id: @id, followable_type: @type)
+      render :json => {result: 'OK', follows: @follows.length, followed: @followed}.to_json , :callback => params['callback']
+    end
+
+    def follow
+      @followed = false
+      if user_signed_in?
+        @user_follow = Follow.where(followable_id: @id, followable_type: @type, user_id: current_user.id).first
+        if !@user_follow.blank?
+          @user_follow.destroy
+        else
+          Follow.create(followable_id: @id, followable_type: @type, user_id: current_user.id)
+          @followed = true
+        end
+      end
+      @follows = Follow.where(followable_id: @id, followable_type: @type)
+      render :json => {result: 'OK',follows: @follows.length, followed: @followed}.to_json , :callback => params['callback']
+    end
+
+    def shares
+      @shared = false
+      if user_signed_in?
+        @user_share = Share.where(shareable_id: @id, shareable_type: @type, user_id: current_user.id).first
+        if !@user_share.blank?
+          @shared = true
+        end
+      end
+
+      @shares = Share.where(shareable_id: @id, shareable_type: @type)
+      render :json => {result: 'OK', shares: @shares.length, shared: @shared}.to_json , :callback => params['callback']
+    end
+
+    def share
+      @shared = false
+      if user_signed_in?
+        Share.create(shareable_id: @id, shareable_type: @type, user_id: current_user.id, stream_id: params[:stream])
+        @shared = true
+      end
+      @shares = Share.where(shareable_id: @id, shareable_type: @type)
+      render :json => {result: 'OK',shares: @shares.length, shared: @shared}.to_json , :callback => params['callback']
+    end
+
+    def find_asset
+      @item = Post.find_by_external_id(params[:id])
+      if !@item.blank?
+        @type = 'Post'
+        @id = @item.id
+      else
+        head(500)
       end
     end
   end

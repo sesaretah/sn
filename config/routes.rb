@@ -49,6 +49,15 @@ Rails.application.routes.draw do
       get '/streams', to: 'api#streams'
       post '/sign_up', to: 'api#sign_up'
       post '/make_post', to: 'api#make_post'
+      post '/make_stream', to: 'api#make_stream'
+      get '/likes', to: 'api#likes'
+      get '/like', to: 'api#like'
+      get '/shares', to: 'api#shares'
+      get '/share', to: 'api#share'
+      get '/follows', to: 'api#follows'
+      get '/follow', to: 'api#follow'
+      get '/bookmarks', to: 'api#bookmarks'
+      get '/bookmark', to: 'api#bookmark'
     end
     namespace 'v2' do
       get '/likes', to: 'api#likes'
