@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190326081620) do
+ActiveRecord::Schema.define(version: 20190328103821) do
 
   create_table "access_controls", force: :cascade do |t|
     t.string   "uuid",                         limit: 255
@@ -142,6 +142,21 @@ ActiveRecord::Schema.define(version: 20190326081620) do
   add_index "likes", ["likeable_id"], name: "index_likes_on_likeable_id", using: :btree
   add_index "likes", ["likeable_type"], name: "index_likes_on_likeable_type", using: :btree
   add_index "likes", ["uuid"], name: "index_likes_on_uuid", unique: true, using: :btree
+
+  create_table "notification_settings", force: :cascade do |t|
+    t.integer  "user_id",                     limit: 4
+    t.integer  "notify_streams_shares",       limit: 4
+    t.integer  "notify_posts_discussions",    limit: 4
+    t.integer  "notify_discussions_comments", limit: 4
+    t.integer  "notify_people_shares",        limit: 4
+    t.integer  "notify_follows_likes",        limit: 4
+    t.integer  "notify_authors_likes",        limit: 4
+    t.integer  "notify_follows_bookmarks",    limit: 4
+    t.integer  "notify_authors_bookmarks",    limit: 4
+    t.integer  "notify_suggestions",          limit: 4
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+  end
 
   create_table "posts", force: :cascade do |t|
     t.string   "stream_id",            limit: 255

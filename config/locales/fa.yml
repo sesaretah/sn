@@ -240,6 +240,16 @@ fa:
     page_gap: "&hellip;"
     previous_label: "قبلی"
     next_label: "بعدی"
+  notify_streams_shares: 'آگاهسازی اشتراک در جویبارها'
+  notify_posts_discussions: 'آگاهسازی گفتگو بر پست ها'
+  notify_discussions_comments: 'آگاهسازی نظرات بر گفتگو ها'
+  notify_people_shares: 'آگاهسازی بازنشر افراد'
+  notify_follows_likes: 'آگاهسازی علاقه به دنبال شده ها'
+  notify_authors_likes: 'آگاهسازی علاقه به نوشته های من'
+  notify_follows_bookmarks: 'آگاهسازی نشان کردن دنبال شده ها'
+  notify_authors_bookmarks: 'آگاهسازی نشان کردن نوشته های من'
+  notify_suggestions: 'آگاهسازی پیشنهادات'
+  notification_settings: 'تنظیمات آگاهسازی'
   administration: 'مدیریت'
   start_point: 'بدو ورود'
   ability_to_administrate: 'قابلیت مدیریت'

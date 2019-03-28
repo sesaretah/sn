@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 1
+  notify_streams_shares: 1
+  notify_posts_discussions: 1
+  notify_discussions_comments: 1
+  notify_people_shares: 1
+  notify_follows_likes: 1
+  notify_authors_likes: 1
+  notify_follows_bookmarks: 1
+  notify_authors_bookmarks: 1
+  notify_suggestions: 1
+
+two:
+  user_id: 1
+  notify_streams_shares: 1
+  notify_posts_discussions: 1
+  notify_discussions_comments: 1
+  notify_people_shares: 1
+  notify_follows_likes: 1
+  notify_authors_likes: 1
+  notify_follows_bookmarks: 1
+  notify_authors_bookmarks: 1
+  notify_suggestions: 1

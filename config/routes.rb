@@ -53,6 +53,8 @@ Rails.application.routes.draw do
   get '/roles/change_start_point/:id', to: "roles#change_start_point"
   post '/assignments', to: "assignments#create"
 
+  get '/settings', to: 'settings#index'
+
   namespace 'api' do
     namespace 'v1' do
       get '/login', to: 'api#login'
