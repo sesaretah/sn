@@ -1,0 +1,12 @@
+$(".list-group-item-action.active").removeClass('active');
+
+<% if @section == 'roles'%>
+$("#administration-detail").replaceWith("<%= escape_javascript(render(:partial => 'roles/form')) %>");
+$("#roles-nav").addClass('active');
+<%end%>
+
+
+<% if @section == 'assignments'%>
+$("#administration-detail").replaceWith("<%= escape_javascript(render(:partial => 'assignments/form')) %>");
+$("#assignments-nav").addClass('active');
+<%end%>

@@ -1,0 +1,77 @@
+<div id='administration-detail'>
+<%= form_for(access_control, remote: true) do |f| %>
+<div class="card-body">
+  <h5><%= role.title%></h5>
+  <div class="row">
+    <div class="col-md-5">
+      <div class="form-group">
+        <label class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" name="access_control[ability_to_administrate]" <% if access_control.ability_to_administrate %>checked<%end%> value="1">
+          <span class="custom-control-label"><%=t :ability_to_administrate%></span>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-5">
+      <div class="form-group">
+        <label class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" name="access_control[ability_to_create_stream]" <% if access_control.ability_to_create_stream %>checked<%end%> value="1">
+          <span class="custom-control-label"><%=t :ability_to_create_stream%></span>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-5">
+      <div class="form-group">
+        <label class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" name="access_control[ability_to_create_discussion]" <% if access_control.ability_to_create_discussion %>checked<%end%> value="1">
+          <span class="custom-control-label"><%=t :ability_to_create_discussion%></span>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-5">
+      <div class="form-group">
+        <label class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" name="access_control[ability_to_comment]" <% if access_control.ability_to_comment %>checked<%end%> value="1">
+          <span class="custom-control-label"><%=t :ability_to_comment%></span>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-5">
+      <div class="form-group">
+        <label class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" name="access_control[ability_to_create_question]" <% if access_control.ability_to_create_question %>checked<%end%> value="1">
+          <span class="custom-control-label"><%=t :ability_to_create_question%></span>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-5">
+      <div class="form-group">
+        <label class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" name="access_control[ability_to_create_answer]" <% if access_control.ability_to_create_answer %>checked<%end%> value="1">
+          <span class="custom-control-label"><%=t :ability_to_create_answer%></span>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <%= f.hidden_field :role_id , value: role.id %>
+  <div class="card-footer text-right">
+    <button type="submit" class="btn btn-primary"><%=t :submit%></button>
+  </div>
+</div>
+<% end %>
+</div>

@@ -1,0 +1,20 @@
+<div id='administration-detail'>
+  <div class="card-header">
+    <%= form_tag '/assignments', remote: true, class:"col-md-12", method: :post do%>
+    <div class="row p-0">
+      <div class="col-md-4">
+            <%= select_tag :user_id, options_for_select(Profile.all.order(:name).collect { |p| [ p.name, p.user.id ] }), {class: "form-control"} %>
+      </div>
+      <div class="col-md-3">
+            <%= select_tag :role_id, options_for_select(Role.all.order(:title).collect { |p| [ p.title, p.id ] }), {class: "form-control"} %>
+      </div>
+      <div class="col-md-2">
+        <button type="submit" class="btn btn-secondary"><%=t :submit%></button>
+      </div>
+    </div>
+    <%end%>
+  </div>
+  <div class="card-body">
+    <%= render partial: 'assignments/list'%>
+  </div>
+</div>

@@ -1,0 +1,62 @@
+<div id='roles-list'>
+  <table class="table table-hover table-outline">
+    <%for role in Role.all%>
+    <tr>
+      <td><%= role.title%></td>
+      <td>
+        <%= link_to "/roles/#{role.id}/destroy", remote: true, class: "icon" ,data: { confirm: t(:are_you_sure) } do %>
+        <i class="fe fe-trash" style='vertical-align:3px;'></i>
+        <%end%>
+
+        <%= link_to "/roles/access/#{role.id}", remote: true, class: "icon" do %>
+        <i class="fe fe-shield" style='vertical-align:3px;'></i>
+        <%end%>
+
+        <label class="custom-switch mt-1">
+          <input type="checkbox" name="startpoint_<%=role.id%>" id='startpoint_<%= role.id%>' <%if role.start_point%>checked<%end%> class="custom-switch-input">
+          <span class="custom-switch-indicator"></span>
+          <span class="custom-switch-description" style='font-size: 80%;'><%=t :start_point%></span>
+        </label>
+
+
+      </td>
+    </tr>
+    <%end%>
+    <script>
+    $('.custom-switch-input').change(function() {
+      var id = $(this).attr('id').split("_")[1];
+      if($(this).is(":checked")) {
+        $.ajax({
+          url: '/roles/change_start_point/'+id,
+          type: 'GET',
+          dataType: 'json',
+          data: {
+            to: 'check'
+          },
+          error: function() {
+            $(this).attr("checked", false);
+          },
+          success: function(res) {
+            $(this).attr("checked", true);
+          }
+        });
+      } else {
+        $.ajax({
+          url: '/roles/change_start_point/'+id,
+          type: 'GET',
+          dataType: 'json',
+          data: {
+            to: 'uncheck'
+          },
+          error: function() {
+            $(this).attr("checked", true);
+          },
+          success: function(res) {
+            $(this).attr("checked", false);
+          }
+        });
+      }
+    });
+    </script>
+  </table>
+</div>

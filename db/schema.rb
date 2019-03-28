@@ -11,7 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190309075226) do
+ActiveRecord::Schema.define(version: 20190326081620) do
+
+  create_table "access_controls", force: :cascade do |t|
+    t.string   "uuid",                         limit: 255
+    t.string   "role_id",                      limit: 255
+    t.boolean  "ability_to_create_stream"
+    t.boolean  "ability_to_create_discussion"
+    t.boolean  "ability_to_comment"
+    t.boolean  "ability_to_create_question"
+    t.boolean  "ability_to_create_answer"
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+    t.boolean  "ability_to_administrate"
+  end
+
+  add_index "access_controls", ["role_id"], name: "index_access_controls_on_role_id", using: :btree
+  add_index "access_controls", ["uuid"], name: "index_access_controls_on_uuid", unique: true, using: :btree
 
   create_table "answers", force: :cascade do |t|
     t.string   "content",     limit: 255
@@ -192,6 +208,7 @@ ActiveRecord::Schema.define(version: 20190309075226) do
     t.text     "description", limit: 65535
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
+    t.boolean  "start_point"
   end
 
   add_index "roles", ["uuid"], name: "index_roles_on_uuid", unique: true, using: :btree
@@ -254,8 +271,10 @@ ActiveRecord::Schema.define(version: 20190309075226) do
     t.string   "phone_number",           limit: 255
     t.string   "mobile",                 limit: 255
     t.boolean  "is_robot"
+    t.string   "current_role_id",        limit: 255
   end
 
+  add_index "users", ["current_role_id"], name: "index_users_on_current_role_id", using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 

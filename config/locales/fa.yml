@@ -240,6 +240,17 @@ fa:
     page_gap: "&hellip;"
     previous_label: "قبلی"
     next_label: "بعدی"
+  administration: 'مدیریت'
+  start_point: 'بدو ورود'
+  ability_to_administrate: 'قابلیت مدیریت'
+  ability_to_create_stream: 'قابلیت ایجاد جویبار'
+  ability_to_create_discussion: 'قابلیت ایجاد گفتگو '
+  ability_to_comment: 'قابلیت نظردهی '
+  ability_to_create_question: 'قابلیت پرسش سوال'
+  ability_to_create_answer: 'قابلیت ایجاد پاسخ'
+  assignments: 'اعطای نقش'
+  change_current_role: 'تغییر نقش'
+  roles: 'نقش ها'
   source: 'منبع'
   bookmarks: 'نشان ها '
   provider: 'سامانه '

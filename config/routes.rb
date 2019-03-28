@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :access_controls
   resources :profiles
   devise_for :users, :controllers => {:registrations => "registrations", sessions: "sessions"}
   resources :questions
@@ -38,10 +39,19 @@ Rails.application.routes.draw do
   post '/educations', to: 'educations#create'
   get '/educations/:id/destroy', to: 'educations#destroy'
 
-  #get '/login', to: 'api#login'
-  #get '/streams', to: 'api#streams'
-  #post '/api/sign_up', to: 'api#sign_up'
-  #post '/api/make_post', to: 'api#make_post'
+  get '/administration', to: 'administration#index'
+  get '/administration/section', to: 'administration#sections'
+
+  post '/assignments', to: "assignments#create"
+  get '/assignments/:id/destroy', to: "assignments#destroy"
+
+
+  post '/roles', to: "roles#create"
+  get '/roles/:id/destroy', to: "roles#destroy"
+  get '/roles/access/:id', to: "roles#access"
+  get '/roles/access/:id', to: "roles#access"
+  get '/roles/change_start_point/:id', to: "roles#change_start_point"
+  post '/assignments', to: "assignments#create"
 
   namespace 'api' do
     namespace 'v1' do

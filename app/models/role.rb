@@ -1,5 +1,6 @@
 class Role < ActiveRecord::Base
   self.primary_key = 'uuid'
+    has_one :access_control
 
   has_many :users, :through => :assignments
   has_many :assignments, dependent: :destroy

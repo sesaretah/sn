@@ -1,0 +1,5 @@
+class AddStartPointToRole < ActiveRecord::Migration
+  def change
+    add_column :roles, :start_point, :boolean
+  end
+end

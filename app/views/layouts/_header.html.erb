@@ -76,6 +76,11 @@
           <li class="nav-item">
             <a href="/settings" class="nav-link"><i class="fe fe-settings"></i><%=t :settings%></a>
           </li>
+          <%if grant_access('ability_to_administrate', current_user)%>
+          <li class="nav-item">
+            <a href="/administration" class="nav-link"><i class="fas fa-user-shield"></i> <%=t :administration%></a>
+          </li>
+          <%end%>
         </ul>
       </div>
     </div>

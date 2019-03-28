@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  uuid: MyString
+  role_id: MyString
+  ability_to_create_stream: false
+  ability_to_create_discussion: false
+  ability_to_comment: false
+  ability_to_create_question: false
+  ability_to_create_answer: false
+
+two:
+  uuid: MyString
+  role_id: MyString
+  ability_to_create_stream: false
+  ability_to_create_discussion: false
+  ability_to_comment: false
+  ability_to_create_question: false
+  ability_to_create_answer: false

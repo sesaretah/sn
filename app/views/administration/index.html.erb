@@ -1,0 +1,18 @@
+<div class='row'>
+  <div class="col-lg-3 ">
+    <div class="list-group list-group-transparent mb-4">
+      <%= link_to '/administration/section?section=roles', id: 'roles-nav',class: "list-group-item list-group-item-action small mb-1", style:'font-weight:normal;', remote: true do%>
+      <i class="fe fe-user" style="vertical-align:-3px;"></i> <%=t :roles%>
+      <%end%>
+      <%= link_to '/administration/section?section=assignments', id: 'assignments-nav',class: "list-group-item list-group-item-action small mb-1", style:'font-weight:normal;', remote: true do%>
+      <i class="fe fe-user-check" style="vertical-align:-3px;"></i> <%=t :assignments%>
+      <%end%>
+    </div>
+  </div>
+  <div class="col-md-9 order-lg-1">
+    <div class="card">
+      <div id='administration-detail'></div>
+      <div class='mb-4'></div>
+    </div>
+  </div>
+</div>
