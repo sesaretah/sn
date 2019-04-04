@@ -25,4 +25,14 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def assign_start_role(user)
+    @start_point_roles = Role.where(start_point: true)
+    for start_point_role in @start_point_roles
+      @start_point_assignment = Assignment.where(user_id: user.id, role_id: start_point_role.id)
+      if @start_point_assignment.blank?
+        @start_point_assignment = Assignment.create(user_id: user.id, role_id: start_point_role.id)
+      end
+    end
+  end
+
 end
