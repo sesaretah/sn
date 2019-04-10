@@ -49,7 +49,7 @@ Rails.application.routes.draw do
 
   post '/roles', to: "roles#create"
   get '/roles/:id/destroy', to: "roles#destroy"
-  get '/roles/access/:id', to: "roles#access"
+  get '/roles/change_current_role', to: "roles#change_current_role"
   get '/roles/access/:id', to: "roles#access"
   get '/roles/change_start_point/:id', to: "roles#change_start_point"
   post '/assignments', to: "assignments#create"

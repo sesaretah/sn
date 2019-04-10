@@ -32,7 +32,9 @@ module ApplicationHelper
         return false
       else
         @ac = AccessControl.where(role_id: user.current_role_id).first
-        @flag = @ac["#{ward}"] && 1 || 0
+        if !@ac.blank?
+          @flag = @ac["#{ward}"] && 1 || 0
+        end
       end
 
       if @flag == 0

@@ -1,5 +1,5 @@
 class RolesController < ApplicationController
-  before_action :find_role,  only:[:change_current_role, :access, :destroy, :change_start_point]
+  before_action :find_role,  only:[:access, :destroy, :change_start_point]
 
   def change_start_point
     if params[:to] == 'check'
@@ -11,6 +11,7 @@ class RolesController < ApplicationController
   end
 
   def change_current_role
+    @role = Role.find(params[:role_id])
     @assignment = Assignment.where(role_id: @role.id, user_id: current_user.id)
     if !@assignment.blank?
       current_user.current_role_id = params[:role_id]
