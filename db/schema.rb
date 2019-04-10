@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190328103821) do
+ActiveRecord::Schema.define(version: 20190404191258) do
 
   create_table "access_controls", force: :cascade do |t|
     t.string   "uuid",                         limit: 255
@@ -145,18 +145,21 @@ ActiveRecord::Schema.define(version: 20190328103821) do
 
   create_table "notification_settings", force: :cascade do |t|
     t.integer  "user_id",                     limit: 4
-    t.integer  "notify_streams_shares",       limit: 4
-    t.integer  "notify_posts_discussions",    limit: 4
-    t.integer  "notify_discussions_comments", limit: 4
-    t.integer  "notify_people_shares",        limit: 4
-    t.integer  "notify_follows_likes",        limit: 4
-    t.integer  "notify_authors_likes",        limit: 4
-    t.integer  "notify_follows_bookmarks",    limit: 4
-    t.integer  "notify_authors_bookmarks",    limit: 4
-    t.integer  "notify_suggestions",          limit: 4
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
+    t.string   "notify_streams_shares",       limit: 255, default: "000"
+    t.string   "notify_posts_discussions",    limit: 255, default: "000"
+    t.string   "notify_discussions_comments", limit: 255, default: "000"
+    t.string   "notify_people_shares",        limit: 255, default: "000"
+    t.string   "notify_follows_likes",        limit: 255, default: "000"
+    t.string   "notify_authors_likes",        limit: 255, default: "000"
+    t.string   "notify_follows_bookmarks",    limit: 255, default: "000"
+    t.string   "notify_authors_bookmarks",    limit: 255, default: "000"
+    t.string   "notify_suggestions",          limit: 255, default: "000"
+    t.datetime "created_at",                                              null: false
+    t.datetime "updated_at",                                              null: false
+    t.string   "uuid",                        limit: 255
   end
+
+  add_index "notification_settings", ["uuid"], name: "index_notification_settings_on_uuid", using: :btree
 
   create_table "posts", force: :cascade do |t|
     t.string   "stream_id",            limit: 255

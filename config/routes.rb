@@ -45,6 +45,7 @@ Rails.application.routes.draw do
   post '/assignments', to: "assignments#create"
   get '/assignments/:id/destroy', to: "assignments#destroy"
 
+  get '/notification_settings/change', to: 'notification_settings#change'
 
   post '/roles', to: "roles#create"
   get '/roles/:id/destroy', to: "roles#destroy"
