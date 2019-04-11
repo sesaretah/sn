@@ -1,6 +1,8 @@
 class RegistrationsController < Devise::RegistrationsController
   before_filter :authenticate_user!, :except => [:new, :update, :create]
   before_filter :assign_start_role, only: [:create]
+  require 'open-uri'
+
   def new
     super
   end
@@ -22,6 +24,11 @@ class RegistrationsController < Devise::RegistrationsController
 
   def update
     super
+  end
+
+  def service
+    response = open('https://auth4.ut.ac.ir:8443/cas/serviceValidate?service=https%3A%2F%2Fsn.ut.ac.ir%2Fusers%2Fservice&ticket='+params[:ticket]).read
+    logger.debug response
   end
 
 end

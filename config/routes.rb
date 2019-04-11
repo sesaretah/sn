@@ -55,6 +55,12 @@ Rails.application.routes.draw do
   post '/assignments', to: "assignments#create"
 
   get '/settings', to: 'settings#index'
+  #get '/users/service', to: 'registrations#service'
+
+  devise_scope :user do
+   get "/users/service", to: "registrations#service"
+   get "/users/cas_login", to: "sessions#cas_login"
+ end
 
   namespace 'api' do
     namespace 'v1' do
