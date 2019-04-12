@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190404191258) do
+ActiveRecord::Schema.define(version: 20190411131052) do
 
   create_table "access_controls", force: :cascade do |t|
     t.string   "uuid",                         limit: 255
@@ -246,6 +246,16 @@ ActiveRecord::Schema.define(version: 20190404191258) do
   add_index "shares", ["stream_id"], name: "index_shares_on_stream_id", using: :btree
   add_index "shares", ["uuid"], name: "index_shares_on_uuid", unique: true, using: :btree
 
+  create_table "ssos", force: :cascade do |t|
+    t.string   "utid",       limit: 255
+    t.string   "uuid",       limit: 255
+    t.string   "status",     limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "ssos", ["uuid"], name: "index_ssos_on_uuid", using: :btree
+
   create_table "streams", force: :cascade do |t|
     t.string   "uuid",       limit: 255
     t.integer  "user_id",    limit: 4
@@ -290,6 +300,7 @@ ActiveRecord::Schema.define(version: 20190404191258) do
     t.string   "mobile",                 limit: 255
     t.boolean  "is_robot"
     t.string   "current_role_id",        limit: 255
+    t.string   "utid",                   limit: 255
   end
 
   add_index "users", ["current_role_id"], name: "index_users_on_current_role_id", using: :btree
