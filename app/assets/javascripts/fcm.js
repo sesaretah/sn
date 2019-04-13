@@ -1,4 +1,5 @@
 function startFcm(event) {
+  
   const messaging = firebase.messaging();
   messaging.usePublicVapidKey("BNs_ZAWxjHh1dnyFGZPirlxTus_SgmMhbJVGD2I3GajkpQm76VG25fJP-l9yYQp1H91tslOWdMXcEFeEyv0VHvY");
   messaging.requestPermission().then(function() {
