@@ -136,6 +136,7 @@ GEM
       rails-deprecated_sanitizer (>= 1.0.1)
     rails-html-sanitizer (1.0.4)
       loofah (~> 2.2, >= 2.2.2)
+    rails-static-router (1.0.0)
     railties (4.2.8)
       actionpack (= 4.2.8)
       activesupport (= 4.2.8)
@@ -222,6 +223,7 @@ DEPENDENCIES
   paperclip
   rack-cors
   rails (= 4.2.8)
+  rails-static-router
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   spring
