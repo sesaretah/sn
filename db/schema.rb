@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190411131052) do
+ActiveRecord::Schema.define(version: 20190413145031) do
 
   create_table "access_controls", force: :cascade do |t|
     t.string   "uuid",                         limit: 255
@@ -267,6 +267,13 @@ ActiveRecord::Schema.define(version: 20190411131052) do
   end
 
   add_index "streams", ["uuid"], name: "index_streams_on_uuid", unique: true, using: :btree
+
+  create_table "token_stores", force: :cascade do |t|
+    t.integer  "user_id",    limit: 4
+    t.string   "token",      limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
 
   create_table "uploads", force: :cascade do |t|
     t.string   "uploadable_id",           limit: 255

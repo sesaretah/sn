@@ -1,6 +1,6 @@
 class RegistrationsController < Devise::RegistrationsController
   before_filter :authenticate_user!, :except => [:new, :update, :create]
-  before_filter :assign_start_role, only: [:create]
+
   require 'open-uri'
 
   def new
@@ -9,7 +9,21 @@ class RegistrationsController < Devise::RegistrationsController
 
   def create
     @username = params[:user][:mobile]
-    @user = User.new(username: @username,mobile: params[:user][:mobile], password: params[:user][:password], password_confirmation: params[:user][:password_confirmation])
+    if params[:sso].blank?
+      @user = User.new(username: @username, email: params[:user][:email], mobile: params[:user][:mobile], password: params[:user][:password], password_confirmation: params[:user][:password_confirmation])
+    else
+      @sso = Sso.where(uuid: params[:sso]).first
+      if !@sso.blank?
+        if params[:user][:password].blank?
+          @password = SecureRandom.hex(10)
+          @password_confirmation = @password
+        else
+          @password = params[:user][:password]
+          @password_confirmation = params[:user][:password_confirmation]
+        end
+        @user = User.new(username: @username, email: params[:user][:email], mobile: params[:user][:mobile], utid: @sso.utid, password: @password , password_confirmation: @password_confirmation)
+      end
+    end
     respond_to do |format|
       if @user.save
         @profile = Profile.create(name: params[:user][:fullname], user_id: @user.id, mobile: params[:user][:mobile])
@@ -17,7 +31,11 @@ class RegistrationsController < Devise::RegistrationsController
         assign_start_role(@user)
         format.html { redirect_to after_sign_in_path_for(@user), notice: 'Welcome' }
       else
-        format.html { render :new }
+        if params[:sso].blank?
+          format.html { render :new }
+        else
+          format.html { render :new, sso: params[:sso] }
+        end
       end
     end
   end

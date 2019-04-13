@@ -5,19 +5,18 @@ class User < ActiveRecord::Base
   validates_format_of :mobile, :with => /[0][9][1][0-9]{8,8}/i, :on => :create
   validates :username, uniqueness: true
 
-  has_one :profile
-  has_many :assignments
-  has_many :comments
-  has_many :shares
-  has_many :educations
-  has_many :follows
-  has_many :bookmarks
-  has_many :streams
-  has_many :notification_settings
+  has_one :profile, dependent: :destroy
+  has_many :comments, dependent: :destroy
+  has_many :shares, dependent: :destroy
+  has_many :educations, dependent: :destroy
+  has_many :follows, dependent: :destroy
+  has_many :bookmarks, dependent: :destroy
+  has_many :streams, dependent: :destroy
+  has_many :notification_settings, dependent: :destroy
 
   has_many :roles, :through => :assignments
   has_many :assignments, dependent: :destroy
-  has_many :interconnects
+  has_many :interconnects, dependent: :destroy
 
   def email_required?
     false

@@ -240,6 +240,9 @@ fa:
     page_gap: "&hellip;"
     previous_label: "قبلی"
     next_label: "بعدی"
+  cas_login: 'ورود با سامانه مرکزی دانشگاه'
+  mobile: 'تلفن همراه'
+  set_password_if_you_want_to_use_mobile_app: 'در صورت استفاده از اپ موبایل شعاع باید رمز عبور تعیین کنید. '
   subject: 'موضوع '
   notify_web: 'آگاهسازی تحت وب'
   notify_mobile: 'آگاهسازی با موبایل'
