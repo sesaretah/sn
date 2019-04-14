@@ -1,6 +1,7 @@
 class Profile < ActiveRecord::Base
   self.primary_key = 'uuid'
   belongs_to :user
+  has_many :follows, :as => :followable, :dependent => :destroy
 
   def image(style)
     @upload = Upload.where(uploadable_type: 'Profile', uploadable_id: self.id, attachment_type: 'profile_avatar').first

@@ -3,6 +3,8 @@ class Follow < ActiveRecord::Base
 
   belongs_to :followable, :polymorphic => true
   belongs_to :stream, :class_name => "Stream", :foreign_key => "followable_id"
+  belongs_to :post, :class_name => "Post", :foreign_key => "followable_id"
+  belongs_to :profile, :class_name => "Profile", :foreign_key => "followable_id"
 
   belongs_to :user
 

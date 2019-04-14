@@ -1,10 +1,11 @@
 class Like < ActiveRecord::Base
   self.primary_key = 'uuid'
 
-  belongs_to :followable, :polymorphic => true
+  belongs_to :likeable, :polymorphic => true
   belongs_to :stream, :class_name => "Like", :foreign_key => "likeable_id"
 
   belongs_to :user
+
 
   def self.user_like(user, type, id)
     @like = Like.where(user_id: user.id, likeable_type: type, likeable_id: id).first
@@ -13,6 +14,11 @@ class Like < ActiveRecord::Base
     else
       return true
     end
+  end
+
+  after_save :make_notify
+  def make_notify
+    @notify = Notify.create(notifyable_id: self.id, notifyable_type: 'Like')
   end
 
   before_create :set_uuid

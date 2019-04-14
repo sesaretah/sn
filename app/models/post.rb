@@ -4,6 +4,7 @@ class Post < ActiveRecord::Base
   belongs_to :stream
   has_many :uploads, :as => :uploadable, :dependent => :destroy
   has_many :shares, :as => :shareable, :dependent => :destroy
+  has_many :follows, :as => :followable, :dependent => :destroy
   belongs_to :user
 
   def cover(style)
@@ -28,6 +29,14 @@ class Post < ActiveRecord::Base
 
   def set_share
     Share.create(shareable_id: self.id, shareable_type: 'Post', stream_id: self.stream_id, user_id: self.user_id)
+  end
+
+  def owner_id
+    if !self.user_id.blank?
+      return self.user_id
+    else
+      return self.stream.user_id
+    end
   end
 
 

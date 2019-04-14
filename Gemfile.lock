@@ -67,6 +67,8 @@ GEM
     diffy (3.2.1)
     erubis (2.7.0)
     execjs (2.7.0)
+    faraday (0.15.4)
+      multipart-post (>= 1.2, < 3)
     ffi (1.9.25)
     font-awesome-rails (4.7.0.4)
       railties (>= 3.2, < 6.0)
@@ -102,6 +104,7 @@ GEM
     mini_portile2 (2.4.0)
     minitest (5.11.3)
     multi_json (1.13.1)
+    multipart-post (2.0.0)
     mysql2 (0.3.21)
     nokogiri (1.9.1)
       mini_portile2 (~> 2.4.0)
@@ -136,7 +139,6 @@ GEM
       rails-deprecated_sanitizer (>= 1.0.1)
     rails-html-sanitizer (1.0.4)
       loofah (~> 2.2, >= 2.2.2)
-    rails-static-router (1.0.0)
     railties (4.2.8)
       actionpack (= 4.2.8)
       activesupport (= 4.2.8)
@@ -214,6 +216,7 @@ DEPENDENCIES
   coffee-rails (~> 4.1.0)
   devise
   diffy (~> 3.2)
+  faraday
   font-awesome-rails
   jbuilder (~> 2.0)
   jquery-rails
@@ -223,7 +226,6 @@ DEPENDENCIES
   paperclip
   rack-cors
   rails (= 4.2.8)
-  rails-static-router
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   spring

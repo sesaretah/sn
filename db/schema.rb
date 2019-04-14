@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190413145031) do
+ActiveRecord::Schema.define(version: 20190414110433) do
 
   create_table "access_controls", force: :cascade do |t|
     t.string   "uuid",                         limit: 255
@@ -63,6 +63,14 @@ ActiveRecord::Schema.define(version: 20190413145031) do
   add_index "bookmarks", ["bookmarkable_id"], name: "index_bookmarks_on_bookmarkable_id", using: :btree
   add_index "bookmarks", ["bookmarkable_type"], name: "index_bookmarks_on_bookmarkable_type", using: :btree
   add_index "bookmarks", ["uuid"], name: "index_bookmarks_on_uuid", unique: true, using: :btree
+
+  create_table "clients", force: :cascade do |t|
+    t.integer  "user_id",     limit: 4
+    t.string   "uuid",        limit: 255
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.string   "client_type", limit: 255
+  end
 
   create_table "comments", force: :cascade do |t|
     t.string   "discussion_id", limit: 255
@@ -160,6 +168,34 @@ ActiveRecord::Schema.define(version: 20190413145031) do
   end
 
   add_index "notification_settings", ["uuid"], name: "index_notification_settings_on_uuid", using: :btree
+
+  create_table "notifications", force: :cascade do |t|
+    t.integer  "user_id",           limit: 4
+    t.string   "title",             limit: 255
+    t.text     "body",              limit: 65535
+    t.integer  "status",            limit: 4
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.string   "uuid",              limit: 255
+    t.string   "notify_id",         limit: 255
+    t.string   "notification_type", limit: 255
+    t.string   "ownership",         limit: 255
+  end
+
+  add_index "notifications", ["notify_id"], name: "index_notifications_on_notify_id", using: :btree
+
+  create_table "notifies", force: :cascade do |t|
+    t.string   "notifyable_id",   limit: 255
+    t.string   "notfiyable_type", limit: 255
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.string   "uuid",            limit: 255
+    t.string   "notifyable_type", limit: 255
+  end
+
+  add_index "notifies", ["notfiyable_type"], name: "index_notifies_on_notfiyable_type", using: :btree
+  add_index "notifies", ["notifyable_id"], name: "index_notifies_on_notifyable_id", using: :btree
+  add_index "notifies", ["notifyable_type"], name: "index_notifies_on_notifyable_type", using: :btree
 
   create_table "posts", force: :cascade do |t|
     t.string   "stream_id",            limit: 255

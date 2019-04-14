@@ -56,6 +56,7 @@ Rails.application.routes.draw do
 
 
   get '/settings', to: 'settings#index'
+  get '/clients/update', to: 'clients#update'
   #get '/users/service', to: 'registrations#service'
 
   devise_scope :user do
