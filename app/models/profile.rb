@@ -28,6 +28,12 @@ class Profile < ActiveRecord::Base
     self.uuid = SecureRandom.uuid
   end
 
+  def owner_id
+    if !self.user_id.blank?
+      return self.user_id
+    end
+  end
+
   def raw_content
     self.bio
   end

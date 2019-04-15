@@ -1,10 +1,11 @@
 module Sender
+  include Mailservice
   include Webpush
   def send_by_settings(notification, user, option)
     @notification = notification
     @notification_setting = user.notification_settings.first
     if @notification_setting[option][0] == '1'
-
+      send_mail(user.email, 'Update' , 'ttt', 'bbb')
     end
     if @notification_setting[option][1] == '1'
 

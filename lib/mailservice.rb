@@ -1,14 +1,14 @@
-module Webpush
+module Mailservice
   require 'net/http'
   require 'uri'
   require 'json'
 
-  def send_web(id, title, body)
+  def send_mail(to, subject , text, url)
     conn = Faraday.new(:url => 'https://sn.ut.ac.ir:4200')
     conn.post do |req|
-      req.url '/send'
+      req.url '/mail'
       req.headers['Content-Type'] = 'application/json'
-      req.body = {id: id, title: title, body: body}.to_json
+      req.body = {to: to, subject: subject, text: text, url: url}.to_json
     end
   end
 end

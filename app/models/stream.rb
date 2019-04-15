@@ -27,6 +27,12 @@ class Stream < ActiveRecord::Base
     end
   end
 
+  def owner_id
+    if !self.user_id.blank?
+      return self.user_id
+    end
+  end
+
 
   def name
     self.title
