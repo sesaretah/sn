@@ -1,3 +1,5 @@
 <% for notification in notifications %>
-<%= render partial:'/notifications/notification_block', locals: {item: notification.notify.notifyable}%>
+<% if !notification.blank?%>
+  <%= render partial:'/notifications/notification_block', locals: {item: notification.notify.notifyable}%>
+<%end%>
 <% end %>
