@@ -1,6 +1,6 @@
 <div id='more'>
 <%@page = page.to_i + 1%>
-<%= link_to "/notifications/more?page=#{@page}", id: 'assignments-nav',class: "list-group-item list-group-item-action small mb-1", style:'font-weight:normal;', remote: true do%>
+<%= link_to "/profiles/more/1?page=#{@page}", id: 'assignments-nav',class: "list-group-item list-group-item-action small mb-1", style:'font-weight:normal;', remote: true do%>
 <span class="ml-auto mr-auto"><i class="fas fa-chevron-circle-down" style="vertical-align:-3px;"></i> <%=t :show_more%></span>
 <%end%>
 </div>

@@ -25,6 +25,22 @@ class Bookmark < ActiveRecord::Base
     self.uuid = SecureRandom.uuid
   end
 
+  def who
+    if self.user && self.user.profile
+      return "#{I18n.t(:bookmark)} #{I18n.t(:via)} <a href='/profiles/#{self.user.profile.id}'>#{self.user.profile.name}</a>"
+    else
+      return ""
+    end
+  end
+
+  def who_compact
+    if self.user && self.user.profile
+      return "#{I18n.t(:bookmark)} #{I18n.t(:via)} #{self.user.profile.name}"
+    else
+      return ""
+    end
+  end
+
   def id
     self.uuid
   end

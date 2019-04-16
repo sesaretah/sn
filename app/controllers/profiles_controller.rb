@@ -4,7 +4,17 @@ class ProfilesController < ApplicationController
   # GET /profiles
   # GET /profiles.json
   def index
-    @profiles = Profile.all
+    extract_profiles(1)
+    @page = 1
+  end
+
+  def more
+    extract_profiles(params[:page])
+    @page = params[:page]
+  end
+
+  def extract_profiles(page)
+    @profiles = Profile.all.order('created_at desc').paginate(:page => page, per_page: 5).order('created_at desc')
   end
 
   def connections

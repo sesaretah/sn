@@ -202,3 +202,11 @@ height: 100%; width: 100%;
 .card-aside-column {
   flex: 0 0 12%;
 }
+
+.card-body {
+  background: #f5fbfa !important;
+}
+
+.white {
+  background: #fff !important;
+}

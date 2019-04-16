@@ -33,6 +33,18 @@ class Stream < ActiveRecord::Base
     end
   end
 
+  before_create :set_integer_id
+  def set_integer_id
+    @last = Stream.all.order('integer_id desc').first
+    if !@last.blank?
+      @last_id = @last.integer_id
+    else
+      @last_id = 0
+    end
+    self.integer_id = @last_id + 1
+  end
+
+
 
   def name
     self.title

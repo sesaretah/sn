@@ -1,3 +1,12 @@
 <% if item.class.name == 'Like'%>
 <%= render partial:'/shares/compact_block', locals: {item: item.likeable, title: item.who}%>
 <%end%>
+<% if item.class.name == 'Share'%>
+<%= render partial:'/shares/compact_block', locals: {item: item.shareable, title: item.who}%>
+<%end%>
+<% if item.class.name == 'Bookmark'%>
+<%= render partial:'/shares/compact_block', locals: {item: item.bookmarkable, title: item.who}%>
+<%end%>
+<% if item.class.name == 'Follow'%>
+<%= render partial:'/shares/compact_block', locals: {item: item.followable, title: item.who}%>
+<%end%>

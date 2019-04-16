@@ -5,7 +5,7 @@ module Sender
     @notification = notification
     @notification_setting = user.notification_settings.first
     if @notification_setting[option][0] == '1'
-      send_mail(user.email, 'Update' , 'ttt', 'bbb')
+      send_mail(user.email, 'آگاهسازی', "#{notification.title} #{notification.body.truncate(27)}", 'https://sn.ut.ac.ir/notifications')
     end
     if @notification_setting[option][1] == '1'
 

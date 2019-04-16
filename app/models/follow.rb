@@ -32,6 +32,23 @@ class Follow < ActiveRecord::Base
     self.uuid
   end
 
+  def who
+    if self.user && self.user.profile
+      return "#{I18n.t(:follow)} #{I18n.t(:via)} <a href='/profiles/#{self.user.profile.id}'>#{self.user.profile.name}</a>"
+    else
+      return ""
+    end
+  end
+
+
+  def who_compact
+    if self.user && self.user.profile
+      return "#{I18n.t(:follow)} #{I18n.t(:via)} #{self.user.profile.name}"
+    else
+      return ""
+    end
+  end
+
   def self.find(uuid)
     Follow.find_by_uuid(uuid)
   end

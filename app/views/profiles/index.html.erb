@@ -12,9 +12,10 @@
         </div>
       </div>
       <div class="card-body" style="background: #f5f7fb;">
-        <% @profiles.each do |profile| %>
-        <%= render partial:'/shares/share_block', locals: {item: profile}%>
-        <% end %>
+        <div id='profiles'>
+          <%= render partial:'/profiles/list', locals: {profiles: @profiles}%>
+        </div>
+        <%= render partial: '/profiles/more', locals:{page: @page}%>
       </div>
     </div>
   </div>

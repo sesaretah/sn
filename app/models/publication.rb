@@ -23,6 +23,12 @@ class Publication < ActiveRecord::Base
     self.content
   end
 
+  def owner_id
+    if !self.user_id.blank?
+      return self.user_id
+    end
+  end
+
   def id
     self.uuid
   end

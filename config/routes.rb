@@ -60,6 +60,9 @@ Rails.application.routes.draw do
   get '/notifications', to: "notifications#index"
   get '/notifications/search', to: "notifications#search"
 
+  get '/profiles/more/1', to: "profiles#more"
+  get '/profiles/search/1', to: "profiles#search"
+
   get '/settings', to: 'settings#index'
   get '/clients/update', to: 'clients#update'
   #get '/users/service', to: 'registrations#service'

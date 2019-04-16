@@ -16,6 +16,17 @@ class Post < ActiveRecord::Base
     end
   end
 
+  before_create :set_integer_id
+  def set_integer_id
+    @last = Post.all.order('integer_id desc').first
+    if !@last.blank?
+      @last_id = @last.integer_id
+    else
+      @last_id = 0
+    end
+    self.integer_id = @last_id + 1
+  end
+
   def image(style)
     @upload = Upload.where(uploadable_type: 'Post', uploadable_id: self.id, attachment_type: 'post_attachment').first
     if !@upload.blank?

@@ -13,6 +13,7 @@ class User < ActiveRecord::Base
   has_many :bookmarks, dependent: :destroy
   has_many :streams, dependent: :destroy
   has_many :notification_settings, dependent: :destroy
+  has_many :privacy_policies, dependent: :destroy
   has_many :notifications, dependent: :destroy
 
   has_many :roles, :through => :assignments

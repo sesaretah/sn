@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190415134430) do
+ActiveRecord::Schema.define(version: 20190416152814) do
 
   create_table "access_controls", force: :cascade do |t|
     t.string   "uuid",                         limit: 255
@@ -92,6 +92,7 @@ ActiveRecord::Schema.define(version: 20190415134430) do
     t.datetime "updated_at",             null: false
     t.string   "title",      limit: 255
     t.string   "color",      limit: 255
+    t.integer  "integer_id", limit: 4
   end
 
   add_index "discussions", ["post_id"], name: "index_discussions_on_post_id", using: :btree
@@ -213,10 +214,23 @@ ActiveRecord::Schema.define(version: 20190415134430) do
     t.string   "link",                 limit: 255
     t.integer  "external_parent_id",   limit: 4
     t.string   "external_parent_type", limit: 255
+    t.integer  "integer_id",           limit: 4
   end
 
   add_index "posts", ["stream_id"], name: "index_posts_on_stream_id", using: :btree
   add_index "posts", ["uuid"], name: "index_posts_on_uuid", unique: true, using: :btree
+
+  create_table "privacy_policies", force: :cascade do |t|
+    t.integer  "user_id",                    limit: 4
+    t.integer  "ability_to_view_educations", limit: 4
+    t.integer  "ability_to_view_shares",     limit: 4
+    t.integer  "ability_to_view_bookmarks",  limit: 4
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.string   "uuid",                       limit: 255
+  end
+
+  add_index "privacy_policies", ["uuid"], name: "index_privacy_policies_on_uuid", unique: true, using: :btree
 
   create_table "profiles", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -302,6 +316,7 @@ ActiveRecord::Schema.define(version: 20190415134430) do
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
     t.text     "details",    limit: 65535
+    t.integer  "integer_id", limit: 4
   end
 
   add_index "streams", ["uuid"], name: "index_streams_on_uuid", unique: true, using: :btree

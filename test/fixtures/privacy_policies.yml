@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 1
+  ability_to_view_educations: 1
+  ability_to_view_shares: 1
+  ability_to_view_bookmarks: 1
+
+two:
+  user_id: 1
+  ability_to_view_educations: 1
+  ability_to_view_shares: 1
+  ability_to_view_bookmarks: 1

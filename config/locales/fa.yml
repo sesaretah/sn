@@ -240,6 +240,15 @@ fa:
     page_gap: "&hellip;"
     previous_label: "قبلی"
     next_label: "بعدی"
+  policy: 'سیاست'
+  myself: 'خودم'
+  followers: 'دنبال کنندگان'
+  all: 'همه'
+  privacy_policies: 'سیاست حریم خصوصی'
+  ability_to_view_educations: 'نمایش سوابق تحصیلی'
+  ability_to_view_shares: 'نمایش به اشتراک گذاری ها'
+  ability_to_view_bookmarks: 'نمایش نشان شده ها '
+  whats_up: 'چه خبر'
   via: 'توسط'
   notifications: 'آگاهسازی ها'
   suggestions: 'پیشنهادات'

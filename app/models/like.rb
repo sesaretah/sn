@@ -38,6 +38,14 @@ class Like < ActiveRecord::Base
     end
   end
 
+  def who_compact
+    if self.user && self.user.profile
+      return "#{I18n.t(:like)} #{I18n.t(:via)} #{self.user.profile.name}"
+    else
+      return ""
+    end
+  end
+
   def self.find(uuid)
     Like.find_by_uuid(uuid)
   end

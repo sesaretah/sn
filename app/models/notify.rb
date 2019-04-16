@@ -17,9 +17,9 @@ class Notify < ActiveRecord::Base
       if !@like.blank?
         @item = @like.likeable_type.classify.constantize.find_by_uuid(@like.likeable_id)
         if !@item.blank?
-          Notification.create(user_id: @item.owner_id, ownership: 'self', notification_type:'Like' , title: I18n.t(:like), body: @item.raw_content, notify_id: self.id)
+          Notification.create(user_id: @item.owner_id, ownership: 'self', notification_type:'Like' , title: @like.who_compact, body: @item.title, notify_id: self.id)
           for user_id in Follow.where(followable_type: @item.class.name, followable_id: @item.id).pluck(:user_id)
-            Notification.create(user_id: user_id, ownership: 'other', notification_type:'Like' , title: I18n.t(:like), body: @item.raw_content, notify_id: self.id)
+            Notification.create(user_id: user_id, ownership: 'other', notification_type:'Like' , title: @like.who_compact, body: @item.title, notify_id: self.id)
           end
         end
       end
@@ -28,9 +28,9 @@ class Notify < ActiveRecord::Base
       if !@bookmark.blank?
         @item = @bookmark.bookmarkable_type.classify.constantize.find_by_uuid(@bookmark.bookmarkable_id)
         if !@item.blank?
-          Notification.create(user_id: @item.owner_id, ownership: 'self', notification_type:'Bookmark' , title: I18n.t(:bookmark), body: @item.raw_content, notify_id: self.id)
+          Notification.create(user_id: @item.owner_id, ownership: 'self', notification_type:'Bookmark' , title: @bookmark.who_compact, body: @item.title, notify_id: self.id)
           for user_id in Follow.where(followable_type: @item.class.name, followable_id: @item.id).pluck(:user_id)
-            Notification.create(user_id: user_id, ownership: 'other', notification_type:'Bookmark' , title: I18n.t(:bookmark), body: @item.raw_content, notify_id: self.id)
+            Notification.create(user_id: user_id, ownership: 'other', notification_type:'Bookmark' , title: @bookmark.who_compact, body: @item.title, notify_id: self.id)
           end
         end
       end
@@ -39,7 +39,7 @@ class Notify < ActiveRecord::Base
       if !@follow.blank?
         @item = @follow.followable_type.classify.constantize.find_by_uuid(@follow.followable_id)
         if !@item.blank?
-          Notification.create(user_id: @item.owner_id, ownership: 'self', notification_type:'Follow' , title: I18n.t(:follow), body: @item.raw_content, notify_id: self.id)
+          Notification.create(user_id: @item.owner_id, ownership: 'self', notification_type:'Follow' , title: @follow.who_compact, body: @item.title, notify_id: self.id)
         end
       end
     when 'Share'
@@ -47,12 +47,12 @@ class Notify < ActiveRecord::Base
       if !@share.blank?
         @item = @share.shareable_type.classify.constantize.find_by_uuid(@share.shareable_id)
         if !@item.blank?
-          Notification.create(user_id: @item.owner_id, ownership: 'self', notification_type:'Share' , title: I18n.t(:share), body: @item.raw_content, notify_id: self.id)
+          Notification.create(user_id: @item.owner_id, ownership: 'self', notification_type:'Share' , title: @share.who_compact, body: @item.title, notify_id: self.id)
           if !@item.owner_id.blank?
             @owner_profile = Profile.where(user_id: @item.owner_id).first
             if !@owner_profile.blank?
               for user_id in Follow.where(followable_type: 'Profile', followable_id: @owner_profile.id).pluck(:user_id)
-                Notification.create(user_id: user_id, ownership: 'other', notification_type:'Share' , title: I18n.t(:share), body: @item.raw_content, notify_id: self.id)
+                Notification.create(user_id: user_id, ownership: 'other', notification_type:'Share' , title: @share.who_compact, body: @item.title, notify_id: self.id)
               end
             end
           end
