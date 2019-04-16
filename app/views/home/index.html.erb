@@ -28,7 +28,9 @@
       </div>
       <div class="card-body p-1" style="background: #f5f7fb;">
         <% for notification in current_user.notifications.order('created_at desc').first(5)%>
-        <%= render partial:'/notifications/notification_block', locals: {item: notification.notify.notifyable}%>
+          <% if !notification.notify.blank?%>
+            <%= render partial:'/notifications/notification_block', locals: {item: notification.notify.notifyable}%>
+          <%end%>
         <%end%>
       </div>
     </div>
