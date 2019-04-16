@@ -22,7 +22,24 @@ class Notification < ActiveRecord::Base
       else
         send_by_settings(self, @user, 'notify_follows_likes')
       end
+    when 'Bookmark'
+      if self.ownership == 'self'
+        send_by_settings(self, @user, 'notify_authors_bookmarks')
+      else
+        send_by_settings(self, @user, 'notify_follows_bookmarks')
+      end
+    when 'Share'
+      if self.ownership == 'self'
+        send_by_settings(self, @user, 'notify_streams_shares')
+      else
+        send_by_settings(self, @user, 'notify_people_shares')
+      end
+    when 'Follow'
+      if self.ownership == 'self'
+        send_by_settings(self, @user, 'notify_authors_followers')
+      end
     end
+
   end
 
 

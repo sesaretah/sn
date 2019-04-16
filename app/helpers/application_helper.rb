@@ -23,25 +23,48 @@ module ApplicationHelper
   end
 
 
-    def grant_access(ward, user)
-      @flag = 0
-      if user.assignments.blank?
-        return false
-      end
-      if user.current_role_id.blank?
-        return false
-      else
-        @ac = AccessControl.where(role_id: user.current_role_id).first
-        if !@ac.blank?
-          @flag = @ac["#{ward}"] && 1 || 0
-        end
-      end
-
-      if @flag == 0
-        return false
-      else
-        return true
+  def grant_access(ward, user)
+    @flag = 0
+    if user.assignments.blank?
+      return false
+    end
+    if user.current_role_id.blank?
+      return false
+    else
+      @ac = AccessControl.where(role_id: user.current_role_id).first
+      if !@ac.blank?
+        @flag = @ac["#{ward}"] && 1 || 0
       end
     end
+
+    if @flag == 1 || is_admin(user)
+      return true
+    else
+      return false
+    end
+  end
+
+  def is_admin(user)
+    @flag = false
+    if !user.assignments.blank? && !user.current_role_id.blank?
+      @ac_role = AccessControl.where(role_id: user.current_role_id).first
+      if !@ac_role.blank? && @ac_role.ability_to_administrate
+        @flag = true
+      end
+    end
+    if @flag
+      return true
+    else
+      return false
+    end
+  end
+
+  def check_owner(obj)
+    if obj.user_id == current_user.id || is_admin(current_user)
+      return true
+    else
+      return false
+    end
+  end
 
 end

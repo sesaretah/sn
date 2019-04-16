@@ -1,0 +1,25 @@
+<div class="row ">
+
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header" style="background-color: #fff;">
+        <%= form_tag '/notifications/search', style: 'width:100%', method: :get, remote: true do%>
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="<%=t :search%>">
+          <div class="input-group-append">
+            <button type="submit" class="btn btn-secondary">
+              <i class="fe fe-search"></i>
+            </button>
+          </div>
+        </div>
+        <%end%>
+      </div>
+      <div class="card-body" style="background: #f5f7fb;">
+        <div id='notifications'>
+          <%= render partial: '/notifications/list', locals:{notifications: @notifications, page: @page}%>
+        </div>
+          <%= render partial: '/notifications/more', locals:{page: @page}%>
+      </div>
+    </div>
+  </div>
+</div>

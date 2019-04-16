@@ -1,0 +1,3 @@
+<% if item.class.name == 'Like'%>
+<%= render partial:'/shares/compact_block', locals: {item: item.likeable, title: item.who}%>
+<%end%>

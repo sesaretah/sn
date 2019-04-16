@@ -1,6 +1,6 @@
 class ProfilesController < ApplicationController
   before_action :set_profile, only: [:show, :edit, :update, :destroy, :shares, :educations, :details, :connections, :bookmarks]
-  before_action :check_owner, only: [:connections]
+  before_action :check_owner, only: [:connections, :edit,:update]
   # GET /profiles
   # GET /profiles.json
   def index

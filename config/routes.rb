@@ -54,6 +54,11 @@ Rails.application.routes.draw do
   get '/roles/change_start_point/:id', to: "roles#change_start_point"
   post '/assignments', to: "assignments#create"
 
+  get '/home/more', to: "home#more"
+
+  get '/notifications/more', to: "notifications#more"
+  get '/notifications', to: "notifications#index"
+  get '/notifications/search', to: "notifications#search"
 
   get '/settings', to: 'settings#index'
   get '/clients/update', to: 'clients#update'

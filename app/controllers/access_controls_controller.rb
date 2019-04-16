@@ -1,6 +1,6 @@
 class AccessControlsController < ApplicationController
   before_action :set_access_control, only: [:show, :edit, :update, :destroy]
-
+  before_action :check_admin, only: [:show, :create, :edit, :update, :destroy]
   # GET /access_controls
   # GET /access_controls.json
   def index
@@ -41,6 +41,12 @@ class AccessControlsController < ApplicationController
   # PATCH/PUT /access_controls/1
   # PATCH/PUT /access_controls/1.json
   def update
+    @access_control.ability_to_create_stream = false
+    @access_control.ability_to_create_discussion = false
+    @access_control.ability_to_comment = false
+    @access_control.ability_to_create_question = false
+    @access_control.ability_to_create_answer = false
+    @access_control.ability_to_administrate = false
     respond_to do |format|
       if @access_control.update(access_control_params)
         format.html { redirect_to @access_control, notice: 'Access control was successfully updated.' }
@@ -60,6 +66,12 @@ class AccessControlsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to access_controls_url, notice: 'Access control was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  def check_admin
+    if !grant_access('ability_to_administrate', current_user)
+      head(403)
     end
   end
 

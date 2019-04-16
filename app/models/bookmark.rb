@@ -15,6 +15,11 @@ class Bookmark < ActiveRecord::Base
     end
   end
 
+  after_save :make_notify
+  def make_notify
+    @notify = Notify.create(notifyable_id: self.id, notifyable_type: 'Bookmark')
+  end
+
   before_create :set_uuid
   def set_uuid
     self.uuid = SecureRandom.uuid

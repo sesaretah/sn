@@ -15,6 +15,11 @@ class Share < ActiveRecord::Base
     end
   end
 
+  after_save :make_notify
+  def make_notify
+    @notify = Notify.create(notifyable_id: self.id, notifyable_type: 'Share')
+  end
+
   before_create :set_uuid
   def set_uuid
     self.uuid = SecureRandom.uuid

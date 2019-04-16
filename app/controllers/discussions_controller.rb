@@ -1,5 +1,7 @@
 class DiscussionsController < ApplicationController
   def create
-    @discussion = Discussion.create(title: params[:title], post_id: params[:post_id], color: params[:color])
+    if grant_access('ability_to_create_discussion', current_user)
+      @discussion = Discussion.create(title: params[:title], post_id: params[:post_id], color: params[:color])
+    end
   end
 end

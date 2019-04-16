@@ -4,9 +4,9 @@
     <% @comments_count = Comment.where('discussion_id IN (?)', @discussion_ids).count %>
     <% for d in discussion.post.discussions%>
     <% if !d.comments.blank?%>
-      <%= link_to "/comments/discussion_comments/#{d.id}", class:"language-color", style:"width:#{((d.comments.count + 1) / (@comments_count + 1)) * 100}%; background-color:#{d.color};", remote: true do%>    <%end%>
+    <%= link_to "/comments/discussion_comments/#{d.id}", class:"language-color", style:"width:#{((d.comments.count + 1) / (@comments_count + 1)) * 100}%; background-color:#{d.color};", remote: true do%>    <%end%>
     <%else%>
-      <%= link_to "/comments/discussion_comments/#{d.id}", class:"language-color", style:"width:10%; background-color:#{d.color};", remote: true do%>    <%end%>
+    <%= link_to "/comments/discussion_comments/#{d.id}", class:"language-color", style:"width:10%; background-color:#{d.color};", remote: true do%>    <%end%>
     <%end%>
     <%end%>
   </span>
@@ -21,11 +21,13 @@
           <div class="media-body">
             <div class="media-heading">
               <small class="float-right text-muted">
-                <%= link_to comment, method: :delete, remote: true ,class: "icon" ,data: { confirm: t(:are_you_sure) } do %>
-                <i class="fe fe-trash" style="vertical-align:-2px"></i>
+                <% if check_owner(comment)%>
+                  <%= link_to comment, method: :delete, remote: true ,class: "icon" ,data: { confirm: t(:are_you_sure) } do %>
+                  <i class="fe fe-trash" style="vertical-align:-2px"></i>
+                  <%end%>
                 <%end%>
               </small>
-              <small class="time float-right text-muted"> <%= comment.created_at%> </small>
+              <small class="time float-right text-muted"> <%= comment.created_at.rfc2822%> </small>
 
               <span class="small"><%= comment.user.profile.name%></span>
             </div>
@@ -37,12 +39,8 @@
 
       </li>
       <%end%>
-      <script>
-      $( ".time" ).each(function( index ) {
-        $( this ).text(moment($( this ).text()).fromNow());
-      });
-      </script>
     </ul>
+    <% if grant_access('ability_to_comment', current_user)%>
     <div class="col-12 pt-4">
       <%= form_for Comment.new, remote: true do |f|%>
       <% if @upload_ids.blank?%>
@@ -114,5 +112,6 @@
       });
     });
     </script>
+    <%end%>
   </div>
 </div>

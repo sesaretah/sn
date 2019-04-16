@@ -240,6 +240,15 @@ fa:
     page_gap: "&hellip;"
     previous_label: "قبلی"
     next_label: "بعدی"
+  via: 'توسط'
+  notifications: 'آگاهسازی ها'
+  suggestions: 'پیشنهادات'
+  show_more: 'بیشتر'
+  share: 'به اشتراک گذاشته شد'
+  follow: 'دنبال شد'
+  bookmark: 'نشان شد'
+  notify_authors_followers: 'آگاهسازی دنبال کردن نوشته های من'
+  notify_new_followers: 'آگاهسازی دنبال کنندگان جدید'
   like: 'ابراز علاقه'
   cas_login: 'ورود با سامانه مرکزی دانشگاه'
   mobile: 'تلفن همراه'

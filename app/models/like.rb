@@ -30,6 +30,14 @@ class Like < ActiveRecord::Base
     self.uuid
   end
 
+  def who
+    if self.user && self.user.profile
+      return "#{I18n.t(:like)} #{I18n.t(:via)} <a href='/profiles/#{self.user.profile.id}'>#{self.user.profile.name}</a>"
+    else
+      return ""
+    end
+  end
+
   def self.find(uuid)
     Like.find_by_uuid(uuid)
   end

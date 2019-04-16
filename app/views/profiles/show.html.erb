@@ -38,8 +38,10 @@
           <%= link_to "/profiles/details/#{@profile.id}", remote: true, class: "btn btn-sm btn-secondary" do %>
           <i class="fe fe-play"></i> <%=t :details%>
           <%end%>
+          <% if check_owner(@profile)%>
           <%= link_to "/profiles/#{@profile.id}/edit", class: "btn btn-sm btn-secondary" do %>
           <i class="fe fe-edit"></i> <%=t :edit%>
+          <%end%>
           <%end%>
         </div>
       </div>
