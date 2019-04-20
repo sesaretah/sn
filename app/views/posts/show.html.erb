@@ -2,6 +2,11 @@
   <div class='card-header'>
     <%= sanitize @post.title%>
     <div class='card-options'>
+      <% if check_owner(@post)%>
+      <%= link_to @post, method: :delete, class: 'btn btn-secondary', data: { confirm: 'Are you sure?' }  do%>
+      <i class="fe fe-trash" style="vertical-align:-3px;"></i> <%=t :destroy%>
+      <%end%>
+      <%end%>
       <a href="/posts/<%=@post.uuid%>/edit" class='btn btn-secondary'><i class="fe fe-edit" style="vertical-align:-3px;"></i> <%=t :edit%></a>
     </div>
   </div>

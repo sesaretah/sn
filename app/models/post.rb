@@ -1,6 +1,6 @@
 class Post < ActiveRecord::Base
   self.primary_key = 'uuid'
-  has_many :discussions
+  has_many :discussions, :dependent => :destroy
   belongs_to :stream
   has_many :uploads, :as => :uploadable, :dependent => :destroy
   has_many :shares, :as => :shareable, :dependent => :destroy

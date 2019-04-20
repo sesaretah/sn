@@ -204,9 +204,13 @@ height: 100%; width: 100%;
 }
 
 .card-body {
-  background: #f5fbfa !important;
+  background: #f8fdfd !important;
 }
 
 .white {
   background: #fff !important;
+}
+
+.bg-blue-lightest {
+    background-color: #e8f1f3 !important;
 }

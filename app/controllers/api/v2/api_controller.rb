@@ -1,8 +1,9 @@
 module Api::V2
   class ApiController < ApplicationController
+    include ActionView::Helpers::TextHelper
     skip_before_action :verify_authenticity_token
-    before_filter :authenticate_user!, :except => [:likes, :like,:shares, :share,:follows, :follow, :authorized, :bookmarks, :bookmark, :check_asset, :streams]
-    before_action :find_user, only: [:likes, :like, :shares, :share, :follows, :follow, :authorized, :bookmarks, :bookmark, :check_asset, :streams]
+    before_filter :authenticate_user!, :except => [:likes, :like,:shares, :share,:follows, :follow, :authorized, :bookmarks, :bookmark, :check_asset, :streams, :wall, :login, :sign_up, :view_share, :view_stream, :view_discussion]
+    before_action :find_user, only: [:likes, :like, :shares, :share, :follows, :follow, :authorized, :bookmarks, :bookmark, :check_asset, :streams, :wall, :view_share, :view_stream, :view_discussion]
     before_action :find_asset, only: [:likes, :like, :shares, :share, :follows, :follow, :bookmarks, :bookmark]
 
     def authorized
@@ -12,6 +13,49 @@ module Api::V2
         render :json => {result: 'ERROR'}.to_json , :callback => params['callback']
       end
     end
+
+    def wall
+      if params[:page].blank?
+        @page = 1
+      else
+        @page = params[:page].to_i
+      end
+      @profile_follows = current_user.follows.where(followable_type: 'Profile')
+      @profile_ids = []
+      for profile_follow in @profile_follows
+        @profile_ids << Profile.find_by_uuid(profile_follow.followable_id)
+      end
+      @stream_follows = current_user.follows.where(followable_type: 'Stream').pluck(:followable_id)
+      @shares = Share.where('user_id IN (?) OR stream_id IN (?)', @profile_ids, @stream_follows)
+      @shares = @shares.paginate(:page => @page, per_page: 10).order('created_at desc')
+      @result= []
+      for share in @shares
+        @result << {id: share.id, title: share.shareable.title, content: truncate(share.shareable.raw_content, length: 80) ,'cover' => request.base_url + share.shareable.cover('medium'), updated_at: share.shareable.updated_at}
+      end
+      render :json => {result: 'OK', shares: @result, page: @page}.to_json , :callback => params['callback']
+    end
+
+    def view_discussion
+      @discussion = Discussion.find(params[:id])
+      @comments = []
+      for comment in @discussion.comments
+        @comments << {id: comment.id, title: comment.user.profile.name ,content: comment.content, 'cover' => request.base_url + comment.user.profile.image('medium') , updated_at: comment.updated_at}
+      end
+      render :json => {result: 'OK', discussion: @discussion, comments: @comments}.to_json , :callback => params['callback']
+    end
+
+    def view_share
+      @share =Share.find(params[:id])
+      @result = {id: @share.id, title: @share.shareable.title, content: @share.shareable.content.gsub('/system/', request.base_url + '/system/') ,'cover' => request.base_url + @share.shareable.cover('medium'), updated_at: @share.shareable.updated_at}
+      @discussions= []
+      if @share.shareable_type == 'Post'
+        for discussion in Discussion.where(post_id: @share.shareable.id)
+          @discussions << {id: discussion.id, title: discussion.title, color: discussion.color, updated_at: discussion.updated_at}
+        end
+      end
+      render :json => {result: 'OK', share: @result, discussions: @discussions}.to_json , :callback => params['callback']
+    end
+
 
     def bookmarks
       @bookmarked = false
@@ -150,7 +194,41 @@ module Api::V2
       if @this_user
         @streams = @this_user.streams
       end
-      render :json => {result: 'OK', streams: @streams}.to_json , :callback => params['callback']
+      @result = []
+      for stream in @streams
+        @result << {id: stream.id, title: stream.title, content: truncate(stream.raw_content, length: 80) ,'cover' => request.base_url + stream.cover('medium'), updated_at: stream.updated_at}
+      end
+      render :json => {result: 'OK', streams: @result}.to_json , :callback => params['callback']
+    end
+
+    def view_stream
+      @stream = Stream.find(params[:id])
+      @result = {id: @stream.id, title: @stream.title, content: truncate(@stream.raw_content, length: 50) ,'cover' => request.base_url + @stream.cover('medium'), updated_at: @stream.updated_at}
+      @shares = []
+      for share in Share.where(stream_id: @stream.id)
+        @shares << {id: share.id, title: share.shareable.title, content: truncate(share.shareable.raw_content, length: 80) ,'cover' => request.base_url + share.shareable.cover('medium'), updated_at: share.shareable.updated_at}
+      end
+      render :json => {result: 'OK', stream: @result, shares: @shares}.to_json , :callback => params['callback']
+    end
+
+    def login
+      if User.find_by_username(params['username']).try(:valid_password?, params[:password])
+        @user = User.find_by_username(params['username'])
+        render :json => {result: 'OK', token: JWTWrapper.encode({ user_id: @user.id }), user_id: @user.id}.to_json , :callback => params['callback']
+      else
+        render :json => {result: 'ERROR',  error: I18n.t(:doesnt_match) }.to_json , :callback => params['callback']
+      end
+    end
+
+
+    def sign_up
+      @user = User.new(username: params['username'], mobile: params['username'], password: params['password'], password_confirmation: params['password_confirmation'])
+      if @user.save
+        @profile = Profile.create(user_id: @user.id, name: params[:name])
+        render :json => {result: 'OK', token: JWTWrapper.encode({ user_id: @user.id })}.to_json, :callback => params['callback']
+      else
+        render :json => {result: 'ERROR', error: @user.errors }.to_json , :callback => params['callback']
+      end
     end
 
 
@@ -159,6 +237,8 @@ module Api::V2
       @interconnect = Interconnect.find_by_uuid(params[:uuid])
       if !@interconnect.blank?
         @this_user = User.find(@interconnect.user_id)
+      else
+        @this_user = current_user
       end
 
     end

@@ -99,6 +99,12 @@ Rails.application.routes.draw do
       get '/bookmarks', to: 'api#bookmarks'
       get '/bookmark', to: 'api#bookmark'
       get '/streams', to: 'api#streams'
+      get '/wall', to: 'api#wall'
+      get '/view_share/:id', to: 'api#view_share'
+      get '/view_stream/:id', to: 'api#view_stream'
+      get '/view_discussion/:id', to: 'api#view_discussion'
+      get '/login', to: 'api#login'
+      post '/sign_up', to: 'api#sign_up'
       post '/check_asset',to: 'api#check_asset'
     end
   end

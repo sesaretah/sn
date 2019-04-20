@@ -10,7 +10,6 @@ class HomeController < ApplicationController
   end
 
   def extract_shares(page)
-
     @profile_follows = current_user.follows.where(followable_type: 'Profile')
     @profile_ids = []
     for profile_follow in @profile_follows

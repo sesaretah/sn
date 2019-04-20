@@ -240,6 +240,7 @@ fa:
     page_gap: "&hellip;"
     previous_label: "قبلی"
     next_label: "بعدی"
+  destroy: 'حذف'
   policy: 'سیاست'
   myself: 'خودم'
   followers: 'دنبال کنندگان'

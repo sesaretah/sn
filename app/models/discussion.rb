@@ -2,7 +2,7 @@ class Discussion < ActiveRecord::Base
   self.primary_key = 'uuid'
   belongs_to :post
   belongs_to :user
-  has_many :comments
+  has_many :comments, :dependent => :destroy
 
   before_create :set_uuid
   def set_uuid
