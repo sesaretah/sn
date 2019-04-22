@@ -41,6 +41,24 @@ class Bookmark < ActiveRecord::Base
     end
   end
 
+  def self.bookmarked(user, uuid)
+    @bookmark = Bookmark.where(bookmarkable_id: uuid, user_id: user.id).first
+    if !@bookmark.blank?
+      return true
+    else
+      return false
+    end
+  end
+
+  def self.bookmarks(uuid)
+    @bookmark = Bookmark.where(bookmarkable_id: uuid).count
+    if !@bookmark.blank?
+      return @bookmark
+    else
+      return 0
+    end
+  end
+
   def id
     self.uuid
   end

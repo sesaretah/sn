@@ -2,8 +2,8 @@ module Api::V2
   class ApiController < ApplicationController
     include ActionView::Helpers::TextHelper
     skip_before_action :verify_authenticity_token
-    before_filter :authenticate_user!, :except => [:likes, :like,:shares, :share,:follows, :follow, :authorized, :bookmarks, :bookmark, :check_asset, :streams, :wall, :login, :sign_up, :view_share, :view_stream, :view_discussion]
-    before_action :find_user, only: [:likes, :like, :shares, :share, :follows, :follow, :authorized, :bookmarks, :bookmark, :check_asset, :streams, :wall, :view_share, :view_stream, :view_discussion]
+    before_filter :authenticate_user!, :except => [:likes, :like,:shares, :share,:follows, :follow, :authorized, :bookmarks, :bookmark, :check_asset, :streams, :wall, :login, :sign_up, :view_share, :view_stream, :view_discussion, :user_streams]
+    before_action :find_user, only: [:likes, :like, :shares, :share, :follows, :follow, :authorized, :bookmarks, :bookmark, :check_asset, :streams, :wall, :view_share, :view_stream, :view_discussion, :user_streams]
     before_action :find_asset, only: [:likes, :like, :shares, :share, :follows, :follow, :bookmarks, :bookmark]
 
     def authorized
@@ -82,7 +82,7 @@ module Api::V2
         end
       end
       @bookmarks = Bookmark.where(bookmarkable_id: @id, bookmarkable_type: @type)
-      render :json => {result: 'OK',bookmarks: @bookmarks.length, bookmarked: @bookmarked}.to_json , :callback => params['callback']
+      render :json => {result: 'OK',bookmarks: @bookmarks.length, bookmarked: @bookmarked, uuid: @id}.to_json , :callback => params['callback']
     end
 
     def follows
@@ -110,7 +110,7 @@ module Api::V2
         end
       end
       @follows = Follow.where(followable_id: @id, followable_type: @type)
-      render :json => {result: 'OK',follows: @follows.length, followed: @followed}.to_json , :callback => params['callback']
+      render :json => {result: 'OK',follows: @follows.length, followed: @followed, uuid: @id}.to_json , :callback => params['callback']
     end
 
     def shares
@@ -162,7 +162,7 @@ module Api::V2
         end
       end
       @likes = Like.where(likeable_id: @id, likeable_type: @type)
-      render :json => {result: 'OK',likes: @likes.length, liked: @liked}.to_json , :callback => params['callback']
+      render :json => {result: 'OK', likes: @likes.length, liked: @liked, uuid: @id}.to_json , :callback => params['callback']
     end
 
     def check_asset
@@ -180,12 +180,18 @@ module Api::V2
     end
 
     def find_asset
-      @item = params[:type].classify.constantize.find_by_external_id(params[:id])
+      @item = params[:type].classify.constantize.find_by_external_id(params[:id]) rescue nil
       if !@item.blank?
         @type = @item.class.name
         @id = @item.id
       else
-        head(500)
+        @item = params[:type].classify.constantize.find(params[:id]) rescue nil
+        if !@item.blank?
+          @type = @item.class.name
+          @id = @item.id
+        else
+          head(500)
+        end
       end
     end
 
@@ -196,20 +202,21 @@ module Api::V2
       end
       @result = []
       for stream in @streams
-        @result << {id: stream.id, title: stream.title, content: truncate(stream.raw_content, length: 80) ,'cover' => request.base_url + stream.cover('medium'), updated_at: stream.updated_at}
+        @result << {id: stream.id, title: stream.title, content: truncate(stream.raw_content, length: 80) ,'cover' => request.base_url + stream.cover('medium'), updated_at: stream.updated_at, liked: Like.liked(@this_user, stream.id), likes: Like.likes(stream.id), bookmarked: Bookmark.bookmarked(@this_user, stream.id), bookmarks: Bookmark.bookmarks(stream.id), followed: Follow.followed(@this_user, stream.id), follows: Follow.follows(stream.id)}
       end
       render :json => {result: 'OK', streams: @result}.to_json , :callback => params['callback']
     end
 
     def view_stream
       @stream = Stream.find(params[:id])
-      @result = {id: @stream.id, title: @stream.title, content: truncate(@stream.raw_content, length: 50) ,'cover' => request.base_url + @stream.cover('medium'), updated_at: @stream.updated_at}
+      @result = {id: @stream.id, title: @stream.title, content: truncate(@stream.raw_content, length: 50) ,'cover' => request.base_url + @stream.cover('medium'), updated_at: @stream.updated_at, liked: Like.liked(@this_user, @stream.id), likes: Like.likes(@stream.id), bookmarked: Bookmark.bookmarked(@this_user, @stream.id), bookmarks: Bookmark.bookmarks(@stream.id), followed: Follow.followed(@this_user, @stream.id), follows: Follow.follows(@stream.id)}
       @shares = []
       for share in Share.where(stream_id: @stream.id)
         @shares << {id: share.id, title: share.shareable.title, content: truncate(share.shareable.raw_content, length: 80) ,'cover' => request.base_url + share.shareable.cover('medium'), updated_at: share.shareable.updated_at}
       end
       render :json => {result: 'OK', stream: @result, shares: @shares}.to_json , :callback => params['callback']
     end
+
 
     def login
       if User.find_by_username(params['username']).try(:valid_password?, params[:password])

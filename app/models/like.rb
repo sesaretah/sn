@@ -46,6 +46,24 @@ class Like < ActiveRecord::Base
     end
   end
 
+  def self.liked(user, uuid)
+    @like = Like.where(likeable_id: uuid, user_id: user.id).first
+    if !@like.blank?
+      return true
+    else
+      return false
+    end
+  end
+
+  def self.likes(uuid)
+    @like = Like.where(likeable_id: uuid).count
+    if !@like.blank?
+      return @like
+    else
+      return 0
+    end
+  end
+
   def self.find(uuid)
     Like.find_by_uuid(uuid)
   end

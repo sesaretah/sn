@@ -49,6 +49,24 @@ class Follow < ActiveRecord::Base
     end
   end
 
+  def self.followed(user, uuid)
+    @follow = Follow.where(followable_id: uuid, user_id: user.id).first
+    if !@follow.blank?
+      return true
+    else
+      return false
+    end
+  end
+
+  def self.follows(uuid)
+    @follow = Follow.where(followable_id: uuid).count
+    if !@follow.blank?
+      return @follow
+    else
+      return 0
+    end
+  end
+
   def self.find(uuid)
     Follow.find_by_uuid(uuid)
   end

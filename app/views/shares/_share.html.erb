@@ -1,13 +1,42 @@
 <span id="share-<%= type%>-<%= id%>">
-<% if Share.user_share(current_user, type, id)%>
-<%= link_to "/shares/share?shareable_type=#{type}&shareable_id=#{id}", remote: true do %>
-<i class="fas fa-retweet" style="color: #bbbbbb;"></i>
-<%end%>
-<%else%>
-<%= link_to "/shares/unshare?shareable_type=#{type}&shareable_id=#{id}", remote: true  do%>
-<i class="fas fa-retweet" style="color: #467fcf;"></i>
-<%end%>
-<%end%>
-<% @shares = Share.where(shareable_type: type, shareable_id: id).count%>
-<span id='shoa-shares' style='font-size:9px;'><%= @shares%></span>
+  <div class='modal' id='shoa-share-modal-<%= type%>-<%= id%>'>
+    <div class='modal-dialog'>
+      <div class='modal-content'>
+        <div class='modal-header'>
+          <h4 class='modal-title'>بازنشر </h4>
+          <button type='button' class='close' data-dismiss='modal'></button>
+        </div>
+        <%= form_tag '/shares/share', remote: true, method: :get do%>
+        <div class='modal-body'>
+          <%= hidden_field_tag :shareable_type, type%>
+          <%= hidden_field_tag :shareable_id, id%>
+          <%= select_tag 'stream_id', options_for_select(current_user.streams.all.collect{ |u| ["#{u.title}", u.id] }) ,{class:"form-control"}%>
+        </div>
+        <div class='modal-footer'>
+          <button type='button' class='btn btn-danger' data-dismiss='modal'>انصراف</button>
+          <button type='submit' class='btn btn-success'> نشر </button>
+        </div>
+        <%end%>
+      </div>
+    </div>
+  </div>
+  <% if Share.user_share(current_user, type, id)%>
+  <% link_to "/shares/share?shareable_type=#{type}&shareable_id=#{id}", remote: true do %>
+  <i class="fas fa-retweet" style="color: #bbbbbb;"></i>
+  <%end%>
+  <a onclick="show('shoa-share-modal-<%= type%>-<%= id%>')">
+    <i class="fas fa-retweet" style="color: #bbbbbb;"></i>
+  </a>
+  <script>
+  function show(id) {
+    $('#'+id).modal('show');
+  }
+  </script>
+  <%else%>
+  <%= link_to "/shares/unshare?shareable_type=#{type}&shareable_id=#{id}", remote: true  do%>
+  <i class="fas fa-retweet" style="color: #467fcf;"></i>
+  <%end%>
+  <%end%>
+  <% @shares = Share.where(shareable_type: type, shareable_id: id).count%>
+  <span id='shoa-shares' style='font-size:9px;'><%= @shares%></span>
 </span>
