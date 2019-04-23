@@ -30,7 +30,7 @@ module Api::V2
       @shares = @shares.paginate(:page => @page, per_page: 10).order('created_at desc')
       @result= []
       for share in @shares
-        @result << {id: share.id, title: share.shareable.title, content: truncate(share.shareable.raw_content, length: 80) ,'cover' => request.base_url + share.shareable.cover('medium'), updated_at: share.shareable.updated_at}
+        @result << {id: share.id, title: share.shareable.title, content: truncate(share.shareable.raw_content, length: 80) ,'cover' => request.base_url + share.shareable.cover('medium'), updated_at: share.shareable.updated_at, liked: Like.liked(@this_user, share.shareable.id), likes: Like.likes(share.shareable.id), bookmarked: Bookmark.bookmarked(@this_user, share.shareable.id), bookmarks: Bookmark.bookmarks(share.shareable.id), followed: Follow.followed(@this_user, share.shareable.id), follows: Follow.follows(share.shareable.id), shared: Share.shared(@this_user, share.shareable.id), shares: Share.shares(share.shareable.id)}
       end
       render :json => {result: 'OK', shares: @result, page: @page}.to_json , :callback => params['callback']
     end
@@ -46,7 +46,7 @@ module Api::V2
 
     def view_share
       @share =Share.find(params[:id])
-      @result = {id: @share.id, title: @share.shareable.title, content: @share.shareable.content.gsub('/system/', request.base_url + '/system/') ,'cover' => request.base_url + @share.shareable.cover('medium'), updated_at: @share.shareable.updated_at}
+      @result = {id: @share.shareable.id, type: @share.shareable_type, title: @share.shareable.title, content: @share.shareable.content.gsub('/system/', request.base_url + '/system/') ,'cover' => request.base_url + @share.shareable.cover('medium'), updated_at: @share.shareable.updated_at, liked: Like.liked(@this_user, @share.shareable.id), likes: Like.likes(@share.shareable.id), bookmarked: Bookmark.bookmarked(@this_user, @share.shareable.id), bookmarks: Bookmark.bookmarks(@share.shareable.id), followed: Follow.followed(@this_user, @share.shareable.id), follows: Follow.follows(@share.shareable.id), shared: Share.shared(@this_user, @share.shareable.id), shares: Share.shares(@share.shareable.id)}
       @discussions= []
       if @share.shareable_type == 'Post'
         for discussion in Discussion.where(post_id: @share.shareable.id)
@@ -202,14 +202,14 @@ module Api::V2
       end
       @result = []
       for stream in @streams
-        @result << {id: stream.id, title: stream.title, content: truncate(stream.raw_content, length: 80) ,'cover' => request.base_url + stream.cover('medium'), updated_at: stream.updated_at, liked: Like.liked(@this_user, stream.id), likes: Like.likes(stream.id), bookmarked: Bookmark.bookmarked(@this_user, stream.id), bookmarks: Bookmark.bookmarks(stream.id), followed: Follow.followed(@this_user, stream.id), follows: Follow.follows(stream.id)}
+        @result << {id: stream.id, title: stream.title, content: truncate(stream.raw_content, length: 80) ,'cover' => request.base_url + stream.cover('medium'), updated_at: stream.updated_at, liked: Like.liked(@this_user, stream.id), likes: Like.likes(stream.id), bookmarked: Bookmark.bookmarked(@this_user, stream.id), bookmarks: Bookmark.bookmarks(stream.id), followed: Follow.followed(@this_user, stream.id), follows: Follow.follows(stream.id), shared: Share.shared(@this_user, stream.id), shares: Share.shares(stream.id)}
       end
       render :json => {result: 'OK', streams: @result}.to_json , :callback => params['callback']
     end
 
     def view_stream
       @stream = Stream.find(params[:id])
-      @result = {id: @stream.id, title: @stream.title, content: truncate(@stream.raw_content, length: 50) ,'cover' => request.base_url + @stream.cover('medium'), updated_at: @stream.updated_at, liked: Like.liked(@this_user, @stream.id), likes: Like.likes(@stream.id), bookmarked: Bookmark.bookmarked(@this_user, @stream.id), bookmarks: Bookmark.bookmarks(@stream.id), followed: Follow.followed(@this_user, @stream.id), follows: Follow.follows(@stream.id)}
+      @result = {id: @stream.id, title: @stream.title, content: truncate(@stream.raw_content, length: 50) ,'cover' => request.base_url + @stream.cover('medium'), updated_at: @stream.updated_at, liked: Like.liked(@this_user, @stream.id), likes: Like.likes(@stream.id), bookmarked: Bookmark.bookmarked(@this_user, @stream.id), bookmarks: Bookmark.bookmarks(@stream.id), followed: Follow.followed(@this_user, @stream.id), follows: Follow.follows(@stream.id), shared: Share.shared(@this_user, @stream.id), shares: Share.shares(@stream.id)}
       @shares = []
       for share in Share.where(stream_id: @stream.id)
         @shares << {id: share.id, title: share.shareable.title, content: truncate(share.shareable.raw_content, length: 80) ,'cover' => request.base_url + share.shareable.cover('medium'), updated_at: share.shareable.updated_at}

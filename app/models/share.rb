@@ -41,6 +41,24 @@ class Share < ActiveRecord::Base
     end
   end
 
+  def self.shared(user, uuid)
+    @share = Share.where(shareable_id: uuid, user_id: user.id).first
+    if !@share.blank?
+      return true
+    else
+      return false
+    end
+  end
+
+  def self.shares(uuid)
+    @share = Share.where(shareable_id: uuid).count
+    if !@share.blank?
+      return @share
+    else
+      return 0
+    end
+  end
+
   def id
     self.uuid
   end
