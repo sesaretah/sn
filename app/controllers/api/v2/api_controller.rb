@@ -2,8 +2,8 @@ module Api::V2
   class ApiController < ApplicationController
     include ActionView::Helpers::TextHelper
     skip_before_action :verify_authenticity_token
-    before_filter :authenticate_user!, :except => [:likes, :like,:shares, :share,:follows, :follow, :authorized, :bookmarks, :bookmark, :check_asset, :streams, :wall, :login, :sign_up, :view_share, :view_stream, :view_discussion, :user_streams]
-    before_action :find_user, only: [:likes, :like, :shares, :share, :follows, :follow, :authorized, :bookmarks, :bookmark, :check_asset, :streams, :wall, :view_share, :view_stream, :view_discussion, :user_streams]
+    before_filter :authenticate_user!, :except => [:likes, :like,:shares, :share,:follows, :follow, :authorized, :bookmarks, :bookmark, :check_asset, :streams, :wall, :login, :sign_up, :view_share, :view_stream, :view_discussion, :user_streams, :view_profile, :view_educations, :view_profile_bookmarks]
+    before_action :find_user, only: [:likes, :like, :shares, :share, :follows, :follow, :authorized, :bookmarks, :bookmark, :check_asset, :streams, :wall, :view_share, :view_stream, :view_discussion, :user_streams, :view_profile, :view_educations, :view_profile_bookmarks]
     before_action :find_asset, only: [:likes, :like, :shares, :share, :follows, :follow, :bookmarks, :bookmark]
 
     def authorized
@@ -30,7 +30,7 @@ module Api::V2
       @shares = @shares.paginate(:page => @page, per_page: 10).order('created_at desc')
       @result= []
       for share in @shares
-        @result << {id: share.id, title: share.shareable.title, content: truncate(share.shareable.raw_content, length: 80) ,'cover' => request.base_url + share.shareable.cover('medium'), updated_at: share.shareable.updated_at, liked: Like.liked(@this_user, share.shareable.id), likes: Like.likes(share.shareable.id), bookmarked: Bookmark.bookmarked(@this_user, share.shareable.id), bookmarks: Bookmark.bookmarks(share.shareable.id), followed: Follow.followed(@this_user, share.shareable.id), follows: Follow.follows(share.shareable.id), shared: Share.shared(@this_user, share.shareable.id), shares: Share.shares(share.shareable.id)}
+        @result << {id: share.id, shareable_id: share.shareable_id ,type: share.shareable_type, title: share.shareable.title, content: truncate(share.shareable.raw_content, length: 80) ,'cover' => request.base_url + share.shareable.cover('medium'), updated_at: share.shareable.updated_at, liked: Like.liked(@this_user, share.shareable.id), likes: Like.likes(share.shareable.id), bookmarked: Bookmark.bookmarked(@this_user, share.shareable.id), bookmarks: Bookmark.bookmarks(share.shareable.id), followed: Follow.followed(@this_user, share.shareable.id), follows: Follow.follows(share.shareable.id), shared: Share.shared(@this_user, share.shareable.id), shares: Share.shares(share.shareable.id)}
       end
       render :json => {result: 'OK', shares: @result, page: @page}.to_json , :callback => params['callback']
     end
@@ -54,6 +54,31 @@ module Api::V2
         end
       end
       render :json => {result: 'OK', share: @result, discussions: @discussions}.to_json , :callback => params['callback']
+    end
+
+
+    def view_profile
+      @profile = Profile.find(params[:id])
+      @result = {id: @profile.id, type: 'Profile', title: @profile.title, content: @profile.content.gsub('/system/', request.base_url + '/system/') ,'cover' => request.base_url + @profile.cover('medium'), updated_at: @profile.updated_at, liked: Like.liked(@this_user, @profile.id), likes: Like.likes(@profile.id), bookmarked: Bookmark.bookmarked(@this_user, @profile.id), bookmarks: Bookmark.bookmarks(@profile.id), followed: Follow.followed(@this_user, @profile.id), follows: Follow.follows(@profile.id), shared: Share.shared(@this_user, @profile.id), shares: Share.shares(@profile.id)}
+      render :json => {result: 'OK', profile: @result}.to_json , :callback => params['callback']
+    end
+
+    def view_educations
+      @profile = Profile.find(params[:id])
+      @result = []
+      for education in @profile.user.educations
+        @result << {profile_id:   @profile.id, id: education.id, school_name: education.school_name, grad_level: education.grad_level, grad_year: education.grad_year, field: education.field, country: education.country, city: education.city}
+      end
+      render :json => {result: 'OK', educations: @result}.to_json , :callback => params['callback']
+    end
+
+    def view_profile_bookmarks
+      @profile = Profile.find(params[:id])
+      @result = []
+      for bookmark in profile.user.bookmarks.order('created_at desc')
+        @result << {profile_id:   @profile.id, title: bookmark.bookmarkable.title, content: bookmark.bookmarkable.content.gsub('/system/', request.base_url + '/system/') ,'cover' => request.base_url + bookmark.bookmarkable.cover('medium'), updated_at: bookmark.bookmarkable.updated_at, liked: Like.liked(@this_user, bookmark.bookmarkable.id), likes: Like.likes(bookmark.bookmarkable.id), bookmarked: Bookmark.bookmarked(@this_user, bookmark.bookmarkable.id), bookmarks: Bookmark.bookmarks(bookmark.bookmarkable.id), followed: Follow.followed(@this_user, bookmark.bookmarkable.id), follows: Follow.follows(bookmark.bookmarkable.id), shared: Share.shared(@this_user, bookmark.bookmarkable.id), shares: Share.shares(bookmark.bookmarkable.id)}
+      end
+      render :json => {result: 'OK', educations: @result}.to_json , :callback => params['callback']
     end
 
 
@@ -212,7 +237,7 @@ module Api::V2
       @result = {id: @stream.id, title: @stream.title, content: truncate(@stream.raw_content, length: 50) ,'cover' => request.base_url + @stream.cover('medium'), updated_at: @stream.updated_at, liked: Like.liked(@this_user, @stream.id), likes: Like.likes(@stream.id), bookmarked: Bookmark.bookmarked(@this_user, @stream.id), bookmarks: Bookmark.bookmarks(@stream.id), followed: Follow.followed(@this_user, @stream.id), follows: Follow.follows(@stream.id), shared: Share.shared(@this_user, @stream.id), shares: Share.shares(@stream.id)}
       @shares = []
       for share in Share.where(stream_id: @stream.id)
-        @shares << {id: share.id, title: share.shareable.title, content: truncate(share.shareable.raw_content, length: 80) ,'cover' => request.base_url + share.shareable.cover('medium'), updated_at: share.shareable.updated_at}
+        @shares << {id: share.id, title: share.shareable.title, content: truncate(share.shareable.raw_content, length: 80) ,'cover' => request.base_url + share.shareable.cover('medium'), updated_at: share.shareable.updated_at , liked: Like.liked(@this_user, share.shareable.id), likes: Like.likes(share.shareable.id), bookmarked: Bookmark.bookmarked(@this_user, share.shareable.id), bookmarks: Bookmark.bookmarks(share.shareable.id), followed: Follow.followed(@this_user, share.shareable.id), follows: Follow.follows(share.shareable.id), shared: Share.shared(@this_user, share.shareable.id), shares: Share.shares(share.shareable.id)}
       end
       render :json => {result: 'OK', stream: @result, shares: @shares}.to_json , :callback => params['callback']
     end

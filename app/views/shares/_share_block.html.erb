@@ -1,3 +1,4 @@
+<% if !item.blank?%>
 <div class="card card-aside mb-2" style="height: 100px;">
   <%= link_to item, class: "card-aside-column", style: "background-image: url(#{item.image('medium')})" do%>
 
@@ -43,3 +44,4 @@
     </div>
   </div>
 </div>
+<%end%>

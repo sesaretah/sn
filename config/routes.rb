@@ -103,6 +103,9 @@ Rails.application.routes.draw do
       get '/view_share/:id', to: 'api#view_share'
       get '/view_stream/:id', to: 'api#view_stream'
       get '/view_discussion/:id', to: 'api#view_discussion'
+      get '/view_profile/:id', to: 'api#view_profile'
+      get '/view_educations/:id', to: 'api#view_educations'
+
       get '/login', to: 'api#login'
       post '/sign_up', to: 'api#sign_up'
       post '/check_asset',to: 'api#check_asset'

@@ -12,6 +12,15 @@ class Profile < ActiveRecord::Base
     end
   end
 
+  def cover(style)
+    @upload = Upload.where(uploadable_type: 'Profile', uploadable_id: self.id, attachment_type: 'profile_avatar').first
+    if !@upload.blank?
+      return @upload.attachment(style)
+    else
+      ActionController::Base.helpers.asset_path("noimage-#{style}.png", :digest => false)
+    end
+  end
+
   before_create :set_integer_id
   def set_integer_id
     @last = Profile.all.order('integer_id desc').first
@@ -36,6 +45,14 @@ class Profile < ActiveRecord::Base
 
   def raw_content
     self.bio
+  end
+
+  def content
+    self.bio
+  end
+
+  def title
+    self.name
   end
 
   def id
