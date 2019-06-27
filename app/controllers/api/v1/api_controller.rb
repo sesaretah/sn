@@ -1,9 +1,9 @@
 module Api::V1
   class ApiController < ApplicationController
     skip_before_action :verify_authenticity_token
-    before_filter :authenticate_user!, :except => [:make_post, :login, :sign_up, :likes, :like,:shares, :share,:follows, :follow, :bookmarks, :bookmark, :make_stream]
-    before_action :find_asset, only: [:likes, :like, :shares, :share, :follows, :follow, :bookmarks, :bookmark]
-    #before_action :logged_in, only: []
+    before_filter :authenticate_user!, :except => [:make_post, :login, :sign_up, :likes, :like,:shares, :share,:follows, :follow, :bookmarks, :bookmark, :make_stream,:edit_post, :delete_post, :edit_stream,:delete_stream]
+    before_action :find_asset, only: [:likes, :like, :shares, :share, :follows, :follow, :bookmarks, :bookmark, :edit_post,:delete_post]
+    before_action :stream_owner, only: [:edit_stream, :delete_stream]
 
     def make_post
       @stream = Stream.find(params[:stream_id])
@@ -15,10 +15,74 @@ module Api::V1
       end
     end
 
+    def edit_post
+      if @item.user_id != current_user.id
+        head(403)
+      end
+
+      if !params[:title].blank?
+        @item.title = params[:title]
+      end
+      if !params[:content].blank?
+        @item.content = params[:content]
+        @item.raw_content = params[:content]
+      end
+
+      if @item.save
+        render :json => {result: 'OK', id: @item.id}.to_json , :callback => params['callback']
+      else
+        render :json => {result: 'ERROR'}.to_json , :callback => params['callback']
+      end
+    end
+
+    def delete_post
+      if @item.user_id != current_user.id
+        head(403)
+      end
+      if @item.destroy
+        render :json => {result: 'OK'}.to_json , :callback => params['callback']
+      else
+        render :json => {result: 'ERROR'}.to_json , :callback => params['callback']
+      end
+    end
+
+
     def make_stream
       @stream = Stream.new(title: params[:title], details: params[:content], user_id: current_user.id)
       if @stream.save
         render :json => {result: 'OK', id: @stream.id}.to_json , :callback => params['callback']
+      else
+        render :json => {result: 'ERROR'}.to_json , :callback => params['callback']
+      end
+    end
+
+    def stream_owner
+      @stream = Stream.find_by_uuid(params[:id])
+      if @stream.blank? || @stream.user_id != current_user.id
+        head(403)
+      end
+    end
+
+    def edit_stream
+      if !@stream.blank?
+        if !params[:title].blank?
+          @stream.title = params[:title]
+        end
+        if !params[:content].blank?
+          @stream.content = params[:content]
+          @stream.raw_content = params[:content]
+        end
+      end
+      if !@stream.blank? && @stream.save
+        render :json => {result: 'OK', id: @stream.id}.to_json , :callback => params['callback']
+      else
+        render :json => {result: 'ERROR'}.to_json , :callback => params['callback']
+      end
+    end
+
+    def delete_stream
+      if @stream.destroy
+        render :json => {result: 'OK'}.to_json , :callback => params['callback']
       else
         render :json => {result: 'ERROR'}.to_json , :callback => params['callback']
       end
@@ -158,7 +222,7 @@ module Api::V1
     def share
       @shared = false
       if user_signed_in?
-        Share.create(shareable_id: @id, shareable_type: @type, user_id: current_user.id, stream_id: params[:stream])
+        Share.create(shareable_id: @id, shareable_type: @type, user_id: current_user.id, stream_id: params[:stream_id])
         @shared = true
       end
       @shares = Share.where(shareable_id: @id, shareable_type: @type)
@@ -166,12 +230,18 @@ module Api::V1
     end
 
     def find_asset
-      @item = Post.find_by_external_id(params[:id])
-      if !@item.blank?
+      @item = Post.where(external_id: params[:id]).first
+      if params[:id].length< 15 && !@item.blank?
         @type = 'Post'
         @id = @item.id
       else
-        head(500)
+        @item = Post.find(params[:id])
+        if !@item.blank?
+          @type = 'Post'
+          @id = @item.id
+        else
+          head(500)
+        end
       end
     end
   end
