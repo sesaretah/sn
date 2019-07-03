@@ -230,17 +230,22 @@ module Api::V1
     end
 
     def find_asset
-      @item = Post.where(external_id: params[:id]).first
-      if params[:id].length< 15 && !@item.blank?
-        @type = 'Post'
-        @id = @item.id
-      else
+      case
+      when params[:id]
         @item = Post.find(params[:id])
         if !@item.blank?
           @type = 'Post'
           @id = @item.id
         else
-          head(500)
+          head(404)
+        end
+      when params[:stream_id]
+        @item = Stream.find(params[:stream_id])
+        if !@item.blank?
+          @type = 'Stream'
+          @id = @item.id
+        else
+          head(404)
         end
       end
     end

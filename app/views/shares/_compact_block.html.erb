@@ -1,3 +1,4 @@
+  <% if !item.blank?%>
 <div class="card card-aside mb-1" style="height: 50px;">
   <div class="card-body d-flex flex-column p-2 white">
     <span style="font-size: 9px;"><% if defined?(title)%><%=raw title%><%end%></span>
@@ -32,3 +33,4 @@
     </div>
   </div>
 </div>
+<%end%>
