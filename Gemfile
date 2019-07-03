@@ -50,7 +50,7 @@ gem 'paperclip'
 gem 'mysql2',          '~> 0.3.18', :platform => :ruby
 gem 'font-awesome-rails' # required
 gem 'jquery-ui-rails'
-gem "thinking-sphinx", "~> 4.1.0"
+gem "thinking-sphinx", "~> 4.3.1"
 gem 'bootstrap', '~> 4.1.1'
 gem 'tabler-rubygem'
 gem 'diffy', '~> 3.2'
