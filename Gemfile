@@ -53,7 +53,7 @@ gem 'jquery-ui-rails'
 gem "thinking-sphinx", "~> 4.3.1"
 gem 'bootstrap', '~> 4.1.1'
 gem 'tabler-rubygem'
-gem 'diffy', '~> 3.2'
+gem 'diffy', '~> 3.4'
 gem 'will_paginate'
 gem 'jwt'
 gem 'rack-cors', require: 'rack/cors'
